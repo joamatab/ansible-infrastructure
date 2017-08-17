@@ -1,0 +1,28 @@
+---
+# tasks file for mumble
+#
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+#   setype: "container_file_t"
+  with_items:
+    - "{{ mumble_install_location }}"
+    - "{{ mumble_data_location }}"
+
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ mumble_install_location }}/docker-compose.yml"
+  register: docker_compose_yml
+  tags:
+    - docker
+    - mumble
+
+- name: Compose mumble
+  docker_service:
+    project_src:  "{{ mumble_install_location }}"
+  tags:
+    - docker
+    - mumble

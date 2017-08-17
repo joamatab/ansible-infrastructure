@@ -1,0 +1,11 @@
+---
+# Deploy nextcloud with docker-compose
+#- name: deploy nextcloud
+#  docker_service:
+#    project_src: "{{ nextcloud_install_location }}"
+
+- name: deploy nextcloud
+  command: "docker-compose up -d"
+  args:
+    chdir: "{{ nextcloud_install_location }}"
+

@@ -1,0 +1,28 @@
+---
+# defaults file for nextcloud
+
+nextcloud_install_location: /var/srv/nextcloud
+
+nextcloud_apps_location: "{{ nextcloud_install_location }}/apps"
+nextcloud_config_location: "{{ nextcloud_install_location }}/config"
+nextcloud_data_location: "{{ nextcloud_install_location }}/data"
+nextcloud_database_location: "{{ nextcloud_install_location }}/database"
+
+nextcloud_domain: cloud.example.com
+nextcloud_admin_user: admin
+nextcloud_admin_password: "{{ lookup('passwordstore',  nextcloud_domain +  '/' + nextcloud_admin_user + ' create=true') }}"
+nextcloud_version: 12.0
+
+nextcloud_memcache_version: 1.4
+
+nextcloud_collabora_domain: office.example.com
+nextcloud_collabora_version: latest
+
+
+nextcloud_database_version: latest
+nextcloud_db_password: "{{ lookup('passwordstore',  nextcloud_domain +  '/db create=true length=42') }}"
+
+nextcloud_image_version: "{{ nextcloud_version }}-apache"
+nextcloud_database_image_version: "{{ nextcloud_database_version }}"
+nextcloud_memcache_image_version: "{{ nextcloud_memcache_version }}-alpine"
+nextcloud_collabora_image_version: "{{ nextcloud_collabora_version }}"

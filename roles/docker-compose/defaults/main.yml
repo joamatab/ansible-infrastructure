@@ -1,0 +1,5 @@
+---
+# defaults file for docker-compose
+dockercompose_version: 1.15.0
+dockercompose_url: https://github.com/docker/compose/releases/download/{{ dockercompose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}
+dockercompose_install_dir: /usr/local/bin/docker-compose

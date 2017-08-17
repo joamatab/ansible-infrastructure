@@ -1,0 +1,79 @@
+version: '2'
+services:
+  database:
+    image: "mariadb:{{ nextcloud_database_image_version }}"
+    environment:
+      - "MYSQL_DATABASE=nextcloud"
+      - "MYSQL_USER=nextcloud"
+      - "MYSQL_PASSWORD={{ nextcloud_db_password }}"
+      - "MYSQL_RANDOM_ROOT_PASSWORD=true"
+    volumes:
+      - "{{ nextcloud_database_location }}:/var/lib/mysql"
+    networks:
+      nextcloud:
+    restart: always
+
+  nextcloud:
+    image: "nextcloud:{{ nextcloud_image_version }}"
+    volumes:
+      - "{{ nextcloud_apps_location }}:/var/www/html/apps"
+      - "{{ nextcloud_data_location }}:/var/www/html/data"
+      - "{{ nextcloud_config_location }}:/var/www/html/config"
+    labels:
+      - "traefik.frontend.rule=Host:{{ nextcloud_domain }};PathPrefix:/"
+      - "traefik.enable=true"
+{% if proxy_network is defined %}
+      - "traefik.docker.network={{ proxy_network }}"
+{% endif %}
+
+    restart: always
+    networks:
+      nextcloud:
+{% if proxy_network is defined %}
+      {{ proxy_network }}:
+{% endif %}
+
+{% if nextcloud_collabora_domain != "office.example.com" %}
+  collabora:
+    image: collabora/code:{{ nextcloud_collabora_image_version }}
+    environment:
+      - "domain={{ nextcloud_domain }}"
+    labels:
+      - "traefik.frontend.rule=Host:{{ nextcloud_collabora_domain }};PathPrefix:/"
+      - "traefik.enable=true"
+    restart: always
+  {% if proxy_network is defined %}
+  networks:
+      {{ proxy_network }}:
+  {% endif %}
+{% endif %}
+
+  memcache:
+    image: memcached:{{ nextcloud_memcache_image_version }}
+    networks:
+      nextcloud:
+    restart: always
+
+  cron:
+    image: nextcloud:{{ nextcloud_image_version }}
+    volumes_from:
+      - nextcloud
+    user: www-data
+    entrypoint: |
+      bash -c 'bash -s <<EOF
+      trap "break;exit" SIGHUP SIGINT SIGTERM
+      while /bin/true; do
+        /usr/local/bin/php /var/www/html/cron.php
+        sleep 900
+      done
+      EOF'
+    restart: always
+    networks:
+      nextcloud:
+
+networks:
+  nextcloud:
+{% if proxy_network is defined %}
+  {{ proxy_network }}:
+    external: true
+{% endif %}

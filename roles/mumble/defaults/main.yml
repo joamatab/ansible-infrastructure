@@ -1,0 +1,12 @@
+---
+# defaults file for mumble
+
+mumble_install_location: /var/srv/mumble
+mumble_data_location: "{{ mumble_install_location }}/data"
+mumble_image_version: latest
+
+mumble_domain: mumble.example.com
+mumble_defaultchannel: mumble
+mumble_registername: "Example Mumble"
+mumble_textlength: "476"
+mumble_bandwidth: 130000

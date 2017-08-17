@@ -1,0 +1,57 @@
+version: '2'
+services:
+  nextcloud-db:
+    image: mariadb:latest
+    environment:
+      - "MYSQL_DATABASE=nextcloud"
+      - "MYSQL_USER=nextcloud"
+      - "MYSQL_PASSWORD=vsjdgejrvsjfjevrjthsgyuehdb"
+      - "MYSQL_RANDOM_ROOT_PASSWORD=true"
+    volumes:
+      - "./database:/var/lib/mysql"
+    networks:
+      nextcloud:
+    restart: always
+  nextcloud:
+    image: nextcloud:11.0-apache
+    volumes:
+      - "./apps/:/var/www/html/apps"
+      - "./data:/var/www/html/data"
+      - "./config:/var/www/html/config"
+    ports:
+      - "127.0.0.1:5324:80"
+    restart: always
+    networks:
+      nextcloud:
+# collabora:
+#   image: collabora/code:latest
+#   environment:
+#     - "domain=cloud.shivering-isles.com"
+#   ports: 
+#     - "127.0.0.1:5325:9980"
+#   restart: always
+  nextcloud-memcache:
+    image: memcached:1.4-alpine
+    networks:
+      nextcloud:
+    restart: always
+  cron:
+    image: nextcloud:11.0-apache
+    volumes_from:
+      - nextcloud
+    user: www-data
+    entrypoint: |
+      bash -c 'bash -s <<EOF
+      trap "break;exit" SIGHUP SIGINT SIGTERM
+      while /bin/true; do
+        /usr/local/bin/php /var/www/html/cron.php
+        sleep 900
+      done
+      EOF'
+    restart: always
+    networks:
+      nextcloud:
+
+networks:
+  nextcloud:
+

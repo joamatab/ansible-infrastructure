@@ -1,0 +1,7 @@
+---
+
+traefik_debug: true
+
+nextcloud_domain: cloud.andromeda.shivering-isles.com
+nextcloud_admin_user: sheogorath
+nextcloud_collabora_domain: office.andromeda.shivering-isles.com

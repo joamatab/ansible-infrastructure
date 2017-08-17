@@ -1,0 +1,4 @@
+---
+
+- include: mumble.yml
+- include: nextcloud.yml

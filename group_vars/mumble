@@ -1,0 +1,9 @@
+---
+
+mumble_domain: mumble.andromeda.shivering-isles.com
+mumble_defaultchannel: MadIRC
+mumble_registername: "Test Mumble"
+mumble_image_version: 1.2.19
+
+mumble_bots:
+  - { name: "ansible-test", mumblechannel: "Randland", ircserver: "irc.madirc.net", ircchannel: "test" }

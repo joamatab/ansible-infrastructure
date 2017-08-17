@@ -1,0 +1,48 @@
+<?php
+$CONFIG = array (
+  'updatechecker' => false,
+  'instanceid' => 'octy68ywsiaf',
+  'passwordsalt' => '5d1uFfms/+lTDEFqz34rNUS4oqB4uv',
+  'secret' => 'GM/DAl7Zh/P3DqbuKVOkNbP4a7RX+ERQcHmlEWgMHMvZxJRn',
+  'trusted_domains' => 
+  array (
+    0 => '{{ nextcloud_domain }}',
+  ),
+  'datadirectory' => '/var/www/html/data',
+  'overwrite.cli.url' => 'https://{{ nextcloud_domain }}',
+  'dbtype' => 'mysql',
+  'version' => '12.0.1.5',
+  'dbname' => 'nextcloud',
+  'dbhost' => 'nextcloud-db',
+  'dbtableprefix' => 'oc_',
+  'dbuser' => 'nextcloud',
+  'dbpassword' => '{{ nextcloud_dbpassword }}',
+  'logtimezone' => 'Europe/Berlin',
+  'installed' => true,
+  'memcache.local' => '\\OC\\Memcache\\APCu',
+  'memcache.distributed' => '\\OC\\Memcache\\Memcached',
+  'memcached_servers' => 
+  array (
+    0 => 
+    array (
+      0 => 'nextcloud-memcache',
+      1 => 11211,
+    ),
+  ),
+  'log_type' => 'owncloud',
+  'log_authfailip' => true,
+  'theme' => '',
+  'loglevel' => 4,
+  'htaccess.RewriteBase' => '/',
+  'maintenance' => false,
+  'apps_paths' => 
+  array (
+    0 => 
+    array (
+      'path' => '/var/www/html/apps',
+      'url' => '/apps',
+      'writable' => false,
+    ),
+  ),
+);
+

@@ -1,0 +1,7 @@
+---
+- hosts: nextcloud
+  roles:
+    - mongrelion.docker
+    - docker-compose
+    - traefik
+    - mumble

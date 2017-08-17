@@ -1,0 +1,8 @@
+---
+- hosts: nextcloud
+  roles:
+    #- common
+    - mongrelion.docker
+    - docker-compose
+    - traefik
+    - nextcloud
