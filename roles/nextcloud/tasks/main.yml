@@ -33,12 +33,6 @@
 - stat: path="{{ nextcloud_config_location }}/config.php"
   register: nextcloud_config_php
 
-- command: docker-compose ps -q nextcloud
-  register: nextcloud_container
-  args:
-    chdir: "{{ nextcloud_install_location }}"
-  when: nextcloud_config_php.stat.exists == False
-
 - name: Sleep to let everything come up
   pause:
     minutes: 1
