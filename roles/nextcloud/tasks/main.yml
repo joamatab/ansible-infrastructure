@@ -13,6 +13,7 @@
     - "{{ nextcloud_data_location }}"
     - "{{ nextcloud_database_location }}"
 
+
 - name: Deploy docker-compose.yml
   template:
     src: docker-compose.yml.j2
@@ -22,23 +23,38 @@
     - docker
     - nextcloud
 
+
 - name: Compose nextcloud
   docker_service:
     project_src:  "{{ nextcloud_install_location }}"
-# command: "docker-compose up -d"
-# args:
-#   chdir: "{{ nextcloud_install_location }}"
-# when: docker_compose_yml|changed
+  register: compose_nextcloud
+
 
 - stat: path="{{ nextcloud_config_location }}/config.php"
   register: nextcloud_config_php
 
+
 - name: Sleep to let everything come up
   pause:
     minutes: 1
+  when: compose_nextcloud|changed
 
-- name: Configure nextcloud
+
+- name: Setup nextcloud
   command: docker exec -u 33 nextcloud_nextcloud_1 /usr/local/bin/php ./occ maintenance:install --database=mysql --database-host=database --database-name=nextcloud --database-user=nextcloud --database-pass={{ nextcloud_db_password }} --admin-user={{ nextcloud_admin_user }} --admin-pass={{ nextcloud_admin_password }}
   args:
     chdir: "{{ nextcloud_install_location }}"
+    creates: "{{ nextcloud_config_location }}/config.php"
   when: nextcloud_config_php.stat.exists == False
+
+
+- name: Provide nextcloud config
+  template:
+    src: import-config.j2
+    dest: "{{ nextcloud_config_location }}/ansible.json"
+  register: nextcloud_config
+
+
+- name: Configure nextcloud
+  command: docker exec -u 33 nextcloud_nextcloud_1 /usr/local/bin/php ./occ config:import config/ansible.json
+  when: nextcloud_config|changed

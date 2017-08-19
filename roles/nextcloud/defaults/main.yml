@@ -18,6 +18,15 @@ nextcloud_memcache_version: 1.4
 nextcloud_collabora_domain: office.example.com
 nextcloud_collabora_version: latest
 
+nextcloud_config:
+  system:
+    trusted_domains:
+      - "{{ nextcloud_domain }}"
+    "overwrite.cli.url": "https://{{ nextcloud_domain }}"
+    "memcache.distributed": "\\OC\\Memcache\\Memcached"
+    "memcached_servers":
+      - ["memcache", "11211"]
+
 
 nextcloud_database_version: latest
 nextcloud_db_password: "{{ lookup('passwordstore',  nextcloud_domain +  '/db create=true length=42') }}"
