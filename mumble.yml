@@ -1,5 +1,5 @@
 ---
-- hosts: nextcloud
+- hosts: mumble
   roles:
     - mongrelion.docker
     - docker-compose
