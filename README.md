@@ -5,10 +5,10 @@ My infrastructure playbook
 Install
 ---
 
-As external Playbook currently [`mongrelion.docker`](https://galaxy.ansible.com/mongrelion/docker/) is required. Since it's licensed under MIT license it's not included in this repository.
+As external Playbook currently [`wtanaka.docker`](https://galaxy.ansible.com/wtanaka/docker/) is required. Since it's licensed under MIT license it's not included in this repository.
 
 ```
-ansible-galaxy install -p roles mongrelion.docker
+ansible-galaxy install -p roles wtanaka.docker
 ```
 
 
