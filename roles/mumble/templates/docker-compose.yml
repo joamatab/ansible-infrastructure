@@ -21,6 +21,7 @@ services:
     image: efrecon/websockify
     labels:
       - "traefik.frontend.rule=Host:{{ mumble_websocket_domain }};PathPrefix:/"
+      - "traefik.port=80"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
       - "traefik.docker.network={{ proxy_network }}"
@@ -35,6 +36,7 @@ services:
     image: sheogorath/mumble-web
     labels:
       - "traefik.frontend.rule=Host:{{ mumble_webend_domain }};PathPrefix:/"
+      - "traefik.port=80"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
       - "traefik.docker.network={{ proxy_network }}"

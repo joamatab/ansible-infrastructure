@@ -41,6 +41,7 @@ services:
       - "domain={{ nextcloud_domain }}"
     labels:
       - "traefik.frontend.rule=Host:{{ nextcloud_collabora_domain }};PathPrefix:/"
+      - "traefik.port=80"
       - "traefik.enable=true"
     restart: always
   {% if proxy_network is defined %}
