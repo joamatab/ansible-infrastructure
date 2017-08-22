@@ -1,0 +1,14 @@
+---
+# defaults file for hackmd
+
+hackmd_install_location: /var/srv/hackmd
+hackmd_database_location: "{{ hackmd_install_location }}/database"
+
+hackmd_domain: pad.example.com
+
+hackmd_version: 0.5.1
+hackmd_postgres_version: 9.6
+
+hackmd_image_version: "{{ hackmd_version }}"
+hackmd_postgres_image_version: "{{ hackmd_postgres_version }}-alpine"
+

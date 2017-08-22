@@ -1,0 +1,48 @@
+{{ ansible_managed | comment }}
+version: '2'
+services:
+  database:
+    image: postgres:{{ hackmd_postgres_image_version }}
+    environment:
+      - POSTGRES_USER=hackmd
+      - POSTGRES_PASSWORD=hackmdpass
+      - POSTGRES_DB=hackmd
+    volumes:
+      - {{ hackmd_database_location }}:/var/lib/postgresql/data
+    networks:
+      backend:
+        aliases:
+          - hackmdPostgres
+    restart: always
+  hackmd:
+    image:  hackmdio/hackmd:{{ hackmd_image_version }}
+    environment:
+      - POSTGRES_USER=hackmd
+      - POSTGRES_PASSWORD=hackmdpass
+      - HMD_PROTOCOL_USESSL=true
+      - HMD_DOMAIN={{ hackmd_domain }}
+      - HMD_USECDN=true
+      - HMD_ALLOW_FREEURL=false
+      - HMD_EMAIL=false
+      - HMD_URL_ADDPORT=false
+    labels:
+      - "traefik.frontend.rule=Host:{{ hackmd_domain }};PathPrefix:/"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+{% if proxy_network is defined %}
+      - "traefik.docker.network={{ proxy_network }}"
+{% endif %}
+
+    networks:
+      backend:
+{% if proxy_network is defined %}
+      {{ proxy_network }}:
+{% endif %}
+
+    restart: always
+networks:
+  backend:
+{% if proxy_network is defined %}
+  {{ proxy_network }}:
+    external: true
+{% endif %}

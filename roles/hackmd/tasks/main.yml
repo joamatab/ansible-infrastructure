@@ -1,0 +1,27 @@
+---
+# tasks file for HackMD
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+#   setype: "container_file_t"
+  with_items:
+    - "{{ hackmd_install_location }}"
+    - "{{ hackmd_database_location }}"
+
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ hackmd_install_location }}/docker-compose.yml"
+  register: docker_compose_yml
+  tags:
+    - docker
+    - hackmd
+
+
+- name: Compose hackmd
+  docker_service:
+    project_src:  "{{ hackmd_install_location }}"
+  register: compose_hackmd
