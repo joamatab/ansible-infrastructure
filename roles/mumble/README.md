@@ -1,38 +1,39 @@
-Role Name
+Mumble dockerized
 =========
 
-A brief description of the role goes here.
+This role installs and configures a docker based version of mumble with a webclient. It is written to work fine with traefik as reverse proxy.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+It's required that all needed packages for the `docker_service` module are installed as well as docker itself.
+
+Since the role doesn't expose any ports by default, please use a reverse proxy like [`traefik`](https://traefik.io) to make it public available.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+### Mumble
+
+|Variable name                |Default value                                                                  |Description                           |
+|-----------------------------|-------------------------------------------------------------------------------|--------------------------------------|
+|`mumble_image_version`       |`latest`                                                                       |Version prefix for mumble image       |
+|`mumble_domain`              |`mumble.example.com`                                                           |domain used for mumble                |
+|`mumble_install_location`    |`/var/srv/mumble`                                                              |Place where mumble stores its data    |
+|`mumble_defaultchannel`      |`mumble`                                                                       |Defaultchannel in Mumble              |
+|`mumble_registername`        |`Example Mumble`                                                               |Name used as Description              |
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+On the remote machine you have to make sure, that `docker-compose` is installed as python version, including `PyYAML`. [See details.](https://docs.ansible.com/ansible/latest/docker_service_module.html#requirements-on-host-that-executes-module)
 
 License
 -------
 
-BSD
+GPL-3.0
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+More details as well as example usage can be found in my [infrastructure playbook](https://github.com/SISheogorath/infrastructure)
