@@ -1,0 +1,16 @@
+---
+# defaults file for ghost
+ghost_install_location: "/var/srv/ghost"
+ghost_blog_data_location: "{{ ghost_install_location }}/blog-data"
+ghost_comment_data_location: "{{ ghost_install_location }}/comment-data"
+
+
+ghost_version: "0.11.11"
+ghost_isso_version: "0.10.6"
+
+ghost_domain: "blog.example.com"
+ghost_comments_domain: "comments.example.com"
+
+
+ghost_image_version: "{{ ghost_version }}-alpine"
+ghost_isso_image_version: "{{ ghost_isso_version }}"

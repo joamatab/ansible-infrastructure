@@ -1,0 +1,39 @@
+---
+# tasks file for blog
+#
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+#   setype: "container_file_t"
+  with_items:
+    - "{{ ghost_install_location }}"
+    - "{{ ghost_blog_data_location }}"
+    - "{{ ghost_comment_data_location }}"
+
+- name: Deploy config.js
+  template:
+    src: config.js
+    dest: "{{ ghost_blog_data_location }}/config.js"
+  tags:
+    - docker
+    - ghost
+    - isso
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ ghost_install_location }}/docker-compose.yml"
+  register: docker_compose_yml
+  tags:
+    - docker
+    - ghost
+    - isso
+
+- name: Compose blog
+  docker_service:
+    project_src:  "{{ ghost_install_location }}"
+  tags:
+    - docker
+    - ghost
+    - isso

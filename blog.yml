@@ -1,0 +1,7 @@
+---
+- hosts: blog
+  roles:
+    - wtanaka.docker
+    - docker-compose
+    - traefik
+    - ghost
