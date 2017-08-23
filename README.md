@@ -1,4 +1,6 @@
-# infrastructure
+[![Build Status](https://img.shields.io/badge/MadIRC-%23Admins-green.svg)](https://webclient.madirc.net/?join=%23Admins)
+
+# Infrastructure
 My infrastructure playbook
 
 
