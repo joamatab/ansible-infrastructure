@@ -13,7 +13,7 @@ nextcloud_admin_user: admin
 nextcloud_admin_password: "{{ lookup('passwordstore',  nextcloud_domain +  '/' + nextcloud_admin_user + ' create=true') }}"
 nextcloud_version: 12.0
 
-nextcloud_memcache_version: 1.4
+nextcloud_memcache_version: 1.5.1
 
 #nextcloud_collabora_domain: office.example.com
 nextcloud_collabora_version: latest
