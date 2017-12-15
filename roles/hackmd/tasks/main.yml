@@ -5,10 +5,11 @@
   file:
     path: "{{ item }}"
     state: directory
-#   setype: "container_file_t"
+    setype: "svirt_sandbox_file_t"
   with_items:
     - "{{ hackmd_install_location }}"
     - "{{ hackmd_database_location }}"
+  become: true
 
 
 - name: Deploy docker-compose.yml
@@ -19,9 +20,11 @@
   tags:
     - docker
     - hackmd
+  become: true
 
 
 - name: Compose hackmd
   docker_service:
     project_src:  "{{ hackmd_install_location }}"
   register: compose_hackmd
+  become: true

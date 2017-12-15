@@ -5,15 +5,17 @@
   file:
     path: "{{ item }}"
     state: directory
-    setype: "container_file_t"
+    setype: "svirt_sandbox_file_t"
   with_items:
     - "{{ traefik_install_location }}"
     - "{{ traefik_acme_location }}"
+  become: true
 
 
 - name: Create proxy network
   docker_network:
     name: "{{ proxy_network }}"
+  become: true
 
 - name: Deploy docker-compose.yml
   template:
@@ -22,11 +24,9 @@
   register: docker_compose_yml
   tags:
     - docker
+  become: true
 
 - name: Compose traefik
   docker_service:
     project_src: "{{ traefik_install_location }}"
-# command: "docker-compose up -d"
-# args:
-#   chdir: "{{ traefik_install_location }}"
-# when: docker_compose_yml|changed
+  become: true

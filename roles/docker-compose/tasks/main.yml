@@ -1,10 +1,11 @@
 ---
 - name: Install docker-compose dependencies
-  apt:
+  yum:
     name: "{{ item }}"
     state: latest
   with_items:
     - "docker-compose"
+  become: true
 
 
 # name: Install docker-compose

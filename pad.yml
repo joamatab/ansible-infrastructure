@@ -1,7 +1,6 @@
 ---
 - hosts: pad
   roles:
-    - wtanaka.docker
     - docker-compose
     - traefik
     - hackmd

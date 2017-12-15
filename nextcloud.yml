@@ -1,8 +1,6 @@
 ---
 - hosts: nextcloud
   roles:
-    #- common
-    - wtanaka.docker
     - docker-compose
     - traefik
     - nextcloud

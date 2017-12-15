@@ -5,13 +5,14 @@
   file:
     path: "{{ item }}"
     state: directory
-#   setype: "container_file_t"
+    setype: "svirt_sandbox_file_t"
   with_items:
     - "{{ nextcloud_install_location }}"
     - "{{ nextcloud_apps_location }}"
     - "{{ nextcloud_config_location }}"
     - "{{ nextcloud_data_location }}"
     - "{{ nextcloud_database_location }}"
+  become: true
 
 
 - name: Deploy docker-compose.yml
@@ -22,12 +23,14 @@
   tags:
     - docker
     - nextcloud
+  become: true
 
 
 - name: Compose nextcloud
   docker_service:
     project_src:  "{{ nextcloud_install_location }}"
   register: compose_nextcloud
+  become: true
 
 
 - stat: path="{{ nextcloud_config_location }}/config.php"
@@ -46,15 +49,19 @@
     chdir: "{{ nextcloud_install_location }}"
     creates: "{{ nextcloud_config_location }}/config.php"
   when: nextcloud_config_php.stat.exists == False
+  become: true
 
 
 - name: Provide nextcloud config
   template:
     src: import-config.j2
     dest: "{{ nextcloud_config_location }}/ansible.json"
+    setype: "svirt_sandbox_file_t"
   register: nextcloud_config
+  become: true
 
 
 - name: Configure nextcloud
   command: docker exec -u 33 nextcloud_nextcloud_1 /usr/local/bin/php ./occ config:import config/ansible.json
   when: nextcloud_config|changed
+  become: true

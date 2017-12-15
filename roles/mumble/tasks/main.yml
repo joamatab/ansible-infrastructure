@@ -5,10 +5,11 @@
   file:
     path: "{{ item }}"
     state: directory
-#   setype: "container_file_t"
+    setype: "svirt_sandbox_file_t"
   with_items:
     - "{{ mumble_install_location }}"
     - "{{ mumble_data_location }}"
+  become: true
 
 
 - name: Deploy docker-compose.yml
@@ -19,6 +20,7 @@
   tags:
     - docker
     - mumble
+  become: true
 
 - name: Compose mumble
   docker_service:
@@ -26,3 +28,4 @@
   tags:
     - docker
     - mumble
+  become: true

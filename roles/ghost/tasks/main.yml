@@ -5,20 +5,23 @@
   file:
     path: "{{ item }}"
     state: directory
-#   setype: "container_file_t"
+    setype: "svirt_sandbox_file_t"
   with_items:
     - "{{ ghost_install_location }}"
     - "{{ ghost_blog_data_location }}"
     - "{{ ghost_comment_data_location }}"
+  become: true
 
 - name: Deploy config.js
   template:
     src: config.js
     dest: "{{ ghost_blog_data_location }}/config.js"
+    setype: "svirt_sandbox_file_t"
   tags:
     - docker
     - ghost
     - isso
+  become: true
 
 - name: Deploy docker-compose.yml
   template:
@@ -29,6 +32,7 @@
     - docker
     - ghost
     - isso
+  become: true
 
 - name: Compose blog
   docker_service:
@@ -37,3 +41,4 @@
     - docker
     - ghost
     - isso
+  become: true
