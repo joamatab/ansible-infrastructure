@@ -27,6 +27,9 @@ services:
       - HMD_URL_ADDPORT=false
     labels:
       - "traefik.frontend.rule=Host:{{ hackmd_domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.enable=true"
       - "traefik.port=3000"
 {% if proxy_network is defined %}

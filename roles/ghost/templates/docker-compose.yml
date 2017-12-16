@@ -10,6 +10,8 @@ services:
     labels:
       - "traefik.frontend.rule=Host:{{ ghost_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.port=2368"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
@@ -30,6 +32,8 @@ services:
     labels:
       - "traefik.frontend.rule=Host:{{ ghost_comments_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.port=80"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
