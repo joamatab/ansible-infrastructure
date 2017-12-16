@@ -9,6 +9,7 @@ services:
       - "{{ ghost_blog_data_location }}:/var/lib/ghost"
     labels:
       - "traefik.frontend.rule=Host:{{ ghost_domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
       - "traefik.port=2368"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
@@ -28,6 +29,7 @@ services:
       - "{{ ghost_comment_data_location }}:/data/"
     labels:
       - "traefik.frontend.rule=Host:{{ ghost_comments_domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
       - "traefik.port=80"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
