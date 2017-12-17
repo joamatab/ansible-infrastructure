@@ -1,5 +1,6 @@
 ---
 
-- include: blog.yml
-- include: mumble.yml
-- include: nextcloud.yml
+- import_playbook: blog.yml
+- import_playbook: mumble.yml
+- import_playbook: nextcloud.yml
+- import_playbook: pad.yml
