@@ -25,6 +25,10 @@ services:
       - HMD_ALLOW_FREEURL=false
       - HMD_EMAIL=false
       - HMD_URL_ADDPORT=false
+{% for option in hackmd_options %}
+      - "{{ option.name }}={{ option.value }}"
+{% endfor %}
+
     labels:
       - "traefik.frontend.rule=Host:{{ hackmd_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"

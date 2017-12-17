@@ -3,6 +3,7 @@
 
 hackmd_install_location: /var/srv/hackmd
 hackmd_database_location: "{{ hackmd_install_location }}/database"
+hackmd_options: []
 
 hackmd_domain: pad.example.com
 
