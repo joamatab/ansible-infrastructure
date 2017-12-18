@@ -1,6 +1,7 @@
 ---
 - hosts: nextcloud
   roles:
+    - sys-upgrade
     - docker-compose
     - traefik
     - nextcloud

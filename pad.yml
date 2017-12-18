@@ -1,6 +1,7 @@
 ---
 - hosts: pad
   roles:
+    - sys-upgrade
     - docker-compose
     - traefik
     - hackmd

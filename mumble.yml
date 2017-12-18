@@ -1,6 +1,7 @@
 ---
 - hosts: mumble
   roles:
+    - sys-upgrade
     - docker-compose
     - traefik
     - mumble
