@@ -13,7 +13,7 @@ services:
     volumes:
     - "/var/run/docker.sock:/var/run/docker.sock"
     - "{{ traefik_acme_location }}:/etc/traefik/acme"
-    command: "-c /dev/null --web --docker --acme --acme.email={{ traefik_LE_email }} --acme.storage=/etc/traefik/acme/acme.json --acme.entryPoint=https --acme.onhostrule --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --defaultentrypoints=http,https --docker.exposedbydefault=false {% if traefik_debug is defined and traefik_debug %} --logLevel=DEBUG {% endif %}"
+    command: "-c /dev/null --docker --acme --acme.email={{ traefik_LE_email }} --acme.storage=/etc/traefik/acme/acme.json --acme.entryPoint=https --acme.onhostrule --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --defaultentrypoints=http,https --docker.exposedbydefault=false {% if traefik_debug is defined and traefik_debug %} --web --logLevel=DEBUG {% endif %}"
     networks:
       {{ proxy_network }}:
 
