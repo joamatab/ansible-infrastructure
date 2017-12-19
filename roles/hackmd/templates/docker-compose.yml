@@ -25,8 +25,8 @@ services:
       - HMD_ALLOW_FREEURL=false
       - HMD_EMAIL=false
       - HMD_URL_ADDPORT=false
-{% for option in hackmd_options %}
-      - "{{ option.name }}={{ option.value }}"
+{% for key, value in hackmd_options.iteritems() %}
+      - "{{ key }}={{ value }}"
 {% endfor %}
 
     labels:
