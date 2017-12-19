@@ -3,9 +3,15 @@
 
 hackmd_install_location: /var/srv/hackmd
 hackmd_database_location: "{{ hackmd_install_location }}/database"
-hackmd_options: []
 
 hackmd_domain: pad.example.com
+hackmd_options:
+  ALLOW_FREE_URL: false
+  HMD_DOMAIN: "{{ hackmd_domain }}"
+  EMAIL: false
+  PROTOCOL_USESSL: true
+  URL_ADDPORT: false
+  USECDN: true
 
 hackmd_version: 0.5.1
 hackmd_postgres_version: 9.6

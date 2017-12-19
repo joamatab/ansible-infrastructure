@@ -19,14 +19,8 @@ services:
     environment:
       - POSTGRES_USER=hackmd
       - POSTGRES_PASSWORD=hackmdpass
-      - HMD_PROTOCOL_USESSL=true
-      - HMD_DOMAIN={{ hackmd_domain }}
-      - HMD_USECDN=true
-      - HMD_ALLOW_FREEURL=false
-      - HMD_EMAIL=false
-      - HMD_URL_ADDPORT=false
 {% for key, value in hackmd_options.iteritems() %}
-      - "{{ key }}={{ value }}"
+      - "HMD_{{ key }}={{ value }}"
 {% endfor %}
 
     labels:
