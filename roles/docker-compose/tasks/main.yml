@@ -1,15 +1,11 @@
 ---
-- name: Install docker-compose dependencies
-  yum:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - "docker-compose"
-  become: true
 
-
-# name: Install docker-compose
-# get_url:
-#   url: "{{ dockercompose_url }}"
-#   dest: "{{ dockercompose_install_dir }}"
-#   mode: a+x
+- name: "Select tasks for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
+  include_tasks: "{{ distro_file }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "default.yml"
+  loop_control:
+    loop_var: distro_file
