@@ -1,18 +1,9 @@
 [![Build Status](https://img.shields.io/badge/MadIRC-%23Admins-green.svg)](https://webclient.madirc.net/?join=%23Admins)
 
 # Infrastructure
-My infrastructure playbook
+This playbook is used to install and maintain my private infrastructure setup.
 
-
-Install
----
-
-As external Playbook currently [`wtanaka.docker`](https://galaxy.ansible.com/wtanaka/docker/) is required. Since it's licensed under MIT license it's not included in this repository.
-
-```
-ansible-galaxy install -p roles wtanaka.docker
-```
-
+For the client setup checkout my [client repository](https://github.com/SISheogorath/ansible-client).
 
 Usage
 ---
@@ -35,3 +26,4 @@ ansible-playbook -i inventory site.yml
 
 That's it for now.
 
+*Hint: For own modifications and to keep track of your changes in a git repository you can use a deployment branch. For details see: https://www.shivering-isles.com/publish-your-work-while-keeping-a-private-fork/*
