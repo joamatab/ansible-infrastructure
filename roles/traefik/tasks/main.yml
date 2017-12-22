@@ -1,6 +1,15 @@
 ---
 # tasks file for traefik
 
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "svirt_sandbox_file_t"
+    state: present
+  with_items:
+    - "{{ traefik_acme_location }}"
+  become: true
+
 - name: Create directory
   file:
     path: "{{ item }}"

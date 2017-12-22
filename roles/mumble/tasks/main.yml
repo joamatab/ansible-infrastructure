@@ -1,6 +1,17 @@
 ---
 # tasks file for mumble
 #
+
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "svirt_sandbox_file_t"
+    state: present
+  with_items:
+    - "{{ mumble_data_location }}"
+  become: true
+
+
 - name: Create directory
   file:
     path: "{{ item }}"

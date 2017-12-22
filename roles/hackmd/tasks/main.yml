@@ -1,6 +1,16 @@
 ---
 # tasks file for HackMD
 
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "svirt_sandbox_file_t"
+    state: present
+  with_items:
+    - "{{ hackmd_database_location }}"
+  become: true
+
+
 - name: Create directory
   file:
     path: "{{ item }}"
