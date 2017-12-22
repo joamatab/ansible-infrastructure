@@ -1,6 +1,19 @@
 ---
 # tasks file for nextcloud
 
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "svirt_sandbox_file_t"
+    state: present
+  with_items:
+    - "{{ nextcloud_apps_location }}"
+    - "{{ nextcloud_config_location }}"
+    - "{{ nextcloud_data_location }}"
+    - "{{ nextcloud_database_location }}"
+  become: true
+
+
 - name: Create directory
   file:
     path: "{{ item }}"

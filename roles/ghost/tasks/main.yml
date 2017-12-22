@@ -1,6 +1,17 @@
 ---
 # tasks file for blog
 #
+
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "svirt_sandbox_file_t"
+    state: present
+  with_items:
+    - "{{ ghost_blog_data_location }}"
+    - "{{ ghost_comment_data_location }}"
+  become: true
+
 - name: Create directory
   file:
     path: "{{ item }}"

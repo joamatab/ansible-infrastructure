@@ -1,0 +1,7 @@
+---
+
+- name: Install docker-compose
+  get_url:
+    url: "{{ dockercompose_url }}"
+    dest: "{{ dockercompose_install_dir }}"
+    mode: a+x
