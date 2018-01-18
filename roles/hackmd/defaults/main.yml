@@ -13,7 +13,7 @@ hackmd_options:
   URL_ADDPORT: false
   USECDN: true
 
-hackmd_version: 0.5.1
+  hackmd_version: 1.0.0-ce
 hackmd_postgres_version: 9.6
 
 hackmd_image_version: "{{ hackmd_version }}"
