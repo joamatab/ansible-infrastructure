@@ -1,0 +1,17 @@
+---
+
+- name: Install docker dependencies
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - "docker"
+  become: true
+
+- name: Ensure docker is started and enabled
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes

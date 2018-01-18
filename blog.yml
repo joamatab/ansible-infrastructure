@@ -2,6 +2,7 @@
 - hosts: blog
   roles:
     - sys-upgrade
+    - docker
     - docker-compose
     - traefik
     - ghost
