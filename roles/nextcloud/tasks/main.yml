@@ -53,7 +53,9 @@
 - name: Sleep to let everything come up
   pause:
     minutes: 1
-  when: compose_nextcloud|changed
+  when:
+    - compose_nextcloud|changed
+    - nextcloud_config_php.stat.exists == False
 
 
 - name: Setup nextcloud
@@ -61,7 +63,8 @@
   args:
     chdir: "{{ nextcloud_install_location }}"
     creates: "{{ nextcloud_config_location }}/config.php"
-  when: nextcloud_config_php.stat.exists == False
+  when:
+    - nextcloud_config_php.stat.exists == False
   become: true
 
 
@@ -76,5 +79,7 @@
 
 - name: Configure nextcloud
   command: docker exec -u 33 nextcloud_nextcloud_1 /usr/local/bin/php ./occ config:import config/ansible.json
-  when: nextcloud_config|changed
+  when:
+    - nextcloud_config|changed
+    - nextcloud_config_php.stat.exists == False
   become: true
