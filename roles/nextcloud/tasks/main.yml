@@ -41,7 +41,9 @@
 
 - name: Compose nextcloud
   docker_service:
+    state: present
     project_src:  "{{ nextcloud_install_location }}"
+    pull: yes
   register: compose_nextcloud
   become: true
 

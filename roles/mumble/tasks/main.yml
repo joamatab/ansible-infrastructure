@@ -35,7 +35,9 @@
 
 - name: Compose mumble
   docker_service:
+    state: present
     project_src:  "{{ mumble_install_location }}"
+    pull: yes
   tags:
     - docker
     - mumble

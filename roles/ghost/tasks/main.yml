@@ -47,7 +47,9 @@
 
 - name: Compose blog
   docker_service:
+    state: present
     project_src:  "{{ ghost_install_location }}"
+    pull: yes
   tags:
     - docker
     - ghost

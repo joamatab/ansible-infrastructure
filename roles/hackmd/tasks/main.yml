@@ -35,6 +35,8 @@
 
 - name: Compose hackmd
   docker_service:
+    state: present
     project_src:  "{{ hackmd_install_location }}"
+    pull: yes
   register: compose_hackmd
   become: true
