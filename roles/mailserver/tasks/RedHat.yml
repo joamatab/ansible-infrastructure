@@ -1,0 +1,21 @@
+---
+# tasks file for mailserver
+
+
+- name: Install postfix
+  yum:
+    name: postfix
+    state: present
+  become: true
+
+- name: Install main.cf
+  copy:
+    src: main.cf
+    target: /etc/postfix/main.cf
+  become: true
+
+- name: Install master.cf
+  copy:
+    src: master.cf
+    target: /etc/postfix/master.cf
+  become: true
