@@ -1,9 +1,8 @@
 ---
-traefik_version: 1.4.5
+traefik_version: 1.5.3
 traefik_install_location: /var/srv/traefik
 traefik_acme_location: "{{ traefik_install_location }}/acme"
 
 traefik_LE_email: no-reply@example.com
 
 proxy_network: proxy
-
