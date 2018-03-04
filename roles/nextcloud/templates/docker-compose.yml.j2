@@ -22,6 +22,9 @@ services:
       - "{{ nextcloud_config_location }}:/var/www/html/config"
     labels:
       - "traefik.frontend.rule=Host:{{ nextcloud_domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
       - "traefik.docker.network={{ proxy_network }}"
@@ -41,6 +44,9 @@ services:
       - "domain={{ nextcloud_domain }}"
     labels:
       - "traefik.frontend.rule=Host:{{ nextcloud_collabora_domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.port=9980"
       - "traefik.enable=true"
       - "traefik.protocol=https"
