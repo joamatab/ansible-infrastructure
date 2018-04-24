@@ -23,8 +23,6 @@ services:
     labels:
       - "traefik.frontend.rule=Host:{{ nextcloud_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
-      - "traefik.frontend.headers.browserXSSFilter=true"
-      - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
       - "traefik.docker.network={{ proxy_network }}"
