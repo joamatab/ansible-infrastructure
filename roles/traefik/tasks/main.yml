@@ -24,6 +24,16 @@
 - name: Create proxy network
   docker_network:
     name: "{{ proxy_network }}"
+    driver_options:
+      com.docker.network.bridge.name: "{{ traefik_docker_bridge_name }}"
+  become: true
+
+- name: Trust our proxy network
+  firewalld:
+    zone: trusted
+    interface: "docker-proxy"
+    permanent: true
+    state: enabled
   become: true
 
 - name: Deploy docker-compose.yml
