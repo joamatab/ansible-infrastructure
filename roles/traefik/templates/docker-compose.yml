@@ -18,6 +18,11 @@ services:
     networks:
       {{ proxy_network }}:
 
+    environment:
+{% for key, value in traefik_options.iteritems() %}
+      - "{{ key }}={{ value }}"
+{% endfor %}
+
     restart: always
 
 networks:
