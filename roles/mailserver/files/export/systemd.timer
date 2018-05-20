@@ -1,0 +1,7 @@
+[Unit]
+Description=Run export.sh once a day
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+Unit=export.service

@@ -1,0 +1,10 @@
+---
+- hosts: mailserver
+  roles:
+    - sys-upgrade
+    - epel
+    - docker
+    - docker-compose
+    - acme_dumper
+    - traefik
+    - mailserver

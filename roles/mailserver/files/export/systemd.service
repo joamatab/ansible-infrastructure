@@ -1,0 +1,7 @@
+[Unit]
+Description=Exports certificates for mailserver
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/var/srv/mailserver/export.sh
