@@ -4,7 +4,7 @@
 - name: Update default SELinux contexts
   sefcontext:
     target: '{{ item }}(/.*)?'
-    setype: "svirt_sandbox_file_t"
+    setype: "container_file_t"
     state: present
   with_items:
     - "{{ nextcloud_apps_location }}"
@@ -18,7 +18,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    setype: "svirt_sandbox_file_t"
+    setype: "container_file_t"
   with_items:
     - "{{ nextcloud_install_location }}"
     - "{{ nextcloud_apps_location }}"
@@ -74,7 +74,7 @@
   template:
     src: import-config.j2
     dest: "{{ nextcloud_config_location }}/ansible.json"
-    setype: "svirt_sandbox_file_t"
+    setype: "container_file_t"
   register: nextcloud_config
   become: true
 
