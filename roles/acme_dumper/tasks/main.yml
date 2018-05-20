@@ -1,0 +1,7 @@
+---
+
+- name: Install acme-dumper
+  copy:
+    src: acme-cert-dump.py
+    dest: /usr/local/bin/acme-cert-dump
+  become: true
