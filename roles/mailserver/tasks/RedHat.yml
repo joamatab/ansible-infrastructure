@@ -286,7 +286,16 @@
   with_items:
     - 587
     - 465
+    - 4190
+  become: true
+
+- name: firewall configs
+  firewalld:
+    port: "{{ item }}/tcp"
+    state: disabled
+    permanent: true
+    immediate: true
+  with_items:
     - 110
     - 143
-    - 4190
   become: true
