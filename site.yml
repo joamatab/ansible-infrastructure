@@ -1,6 +1,8 @@
 ---
 
 - import_playbook: blog.yml
+- import_playbook: mailserver.yml
 - import_playbook: mumble.yml
 - import_playbook: nextcloud.yml
 - import_playbook: pad.yml
+- import_playbook: static_websites.yml
