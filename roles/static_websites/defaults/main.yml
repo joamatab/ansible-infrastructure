@@ -1,0 +1,6 @@
+---
+# defaults file for madirc-web
+
+static_websites_install_location: /var/srv/static
+
+static_websites:

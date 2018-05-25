@@ -1,0 +1,29 @@
+{{ ansible_managed | comment }}
+version: '2'
+services:
+{% for key, value in static_websites.iteritems() %}
+
+  {{ key }}:
+    image: "{{ value.image }}"
+    labels:
+      - "traefik.frontend.rule=Host:{{ value.domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.enable=true"
+{% if proxy_network is defined %}
+      - "traefik.docker.network={{ proxy_network }}"
+{% endif %}
+
+    restart: always
+    networks:
+{% if proxy_network is defined %}
+      {{ proxy_network }}:
+{% endif %}
+{% endfor %}
+
+networks:
+{% if proxy_network is defined %}
+  {{ proxy_network }}:
+    external: true
+{% endif %}

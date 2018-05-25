@@ -1,0 +1,31 @@
+---
+# tasks file for madirc-web
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    seuser: "system_u"
+    setype: "var_t"
+  with_items:
+    - "{{ static_websites_install_location }}"
+  become: true
+
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ static_websites_install_location }}/docker-compose.yml"
+  register: docker_compose_yml
+  tags:
+    - docker
+    - nextcloud
+  become: true
+
+
+- name: Compose static websites
+  docker_service:
+    state: present
+    project_src:  "{{ static_websites_install_location }}"
+    pull: yes
+  become: true

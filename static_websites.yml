@@ -1,0 +1,8 @@
+---
+- hosts: static_websites
+  roles:
+    - sys-upgrade
+    - docker
+    - docker-compose
+    - traefik
+    - static_websites
