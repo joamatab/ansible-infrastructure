@@ -1,0 +1,14 @@
+---
+
+- name: Install SSMTP
+  yum:
+    name: ssmtp
+    state: present
+  become: true
+
+- name: Install ssmtp.conf
+  template:
+    src: ssmtp.conf
+    dest: "/etc/ssmtp/ssmtp.conf"
+    mode: 0600
+  become: true
