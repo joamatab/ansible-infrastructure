@@ -1,0 +1,47 @@
+---
+# tasks file for gitlab-runner
+
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "container_file_t"
+    state: present
+  with_items:
+    - "{{ gitlabrunner_config_location }}"
+  become: true
+
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    setype: "container_file_t"
+  with_items:
+    - "{{ gitlabrunner_install_location }}"
+    - "{{ gitlabrunner_config_location }}"
+  become: true
+
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ gitlabrunner_install_location }}/docker-compose.yml"
+  tags:
+    - docker
+  become: true
+
+- name: Deploy config.toml for gitlab-runner
+  template:
+    src: config.toml
+    dest: "{{ gitlabrunner_config_location }}/config.toml"
+  register: docker_compose_yml
+  tags:
+    - docker
+  become: true
+
+- name: Compose gitlab-runner
+  docker_service:
+    state: present
+    project_src:  "{{ gitlabrunner_config_location }}"
+    pull: yes
+  become: true

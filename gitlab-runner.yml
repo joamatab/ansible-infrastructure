@@ -1,0 +1,7 @@
+---
+- hosts: "gitlab-runner"
+  roles:
+    - sys-upgrade
+    - docker
+    - docker-compose
+    - gitlab-runner

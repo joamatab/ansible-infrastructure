@@ -1,0 +1,9 @@
+gitlabrunner_install_location: "/var/srv/gitlab-runner"
+gitlabrunner_config_location: "{{ gitlabrunner_install_location }}/config"
+
+gitlabrunner_gitlab_url: https://gitlab.example.com
+gitlabrunner_gitlab_token: "{{ lookup('passwordstore',  gitlabrunner_gitlab_url +  '/gitlab-runner-token') }}"
+
+gitlabrunner_digitalocean_token: "{{ lookup('passwordstore',  'cloud.digitalocean.com/gitlab-runner-token') }}"
+gitlabrunner_digitalocean_region: "fra1"
+gitlabrunner_digitalocean_size: 2gb

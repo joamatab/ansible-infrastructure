@@ -1,0 +1,8 @@
+{{ ansible_managed | comment }}
+version: '2'
+services:
+  runner:
+    image: gitlab/gitlab-runner:latest
+    volumes:
+      - "./config:/etc/gitlab-runner"
+    restart: always

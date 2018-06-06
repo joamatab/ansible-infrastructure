@@ -1,0 +1,28 @@
+concurrent = 2
+check_interval = 0
+
+[[runners]]
+  name = "docker-auto-scale"
+  limit = 2
+  url = "{{ gitlabrunner_gitlab_url }}"
+  token = "{{ gitlabrunner_gitlab_token }}"
+  executor = "docker+machine"
+  [runners.docker]
+    image = "docker:stable"
+    privileged = false
+    volumes = ["/cache", "/var/run/docker.sock:/var/run/docker.sock"]
+    allowed_images = ["docker:*"]
+  [runners.machine]
+    IdleCount = 0
+    IdleTime = 1800
+    MaxBuilds = 1
+    MachineDriver = "digitalocean"
+    MachineName = "machine-%s-gitlab-runner-{{ gitlabrunner_digitalocean_size }}"
+    MachineOptions = [
+      "digitalocean-image=coreos-stable",
+      "digitalocean-ssh-user=core",
+      "digitalocean-access-token={{ gitlabrunner_digitalocean_token }}",
+      "digitalocean-region={{ gitlabrunner_digitalocean_region }}",
+      "digitalocean-size={{ gitlabrunner_digitalocean_size }}",
+    ]
+  [runners.cache]
