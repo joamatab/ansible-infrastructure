@@ -15,7 +15,7 @@ services:
     restart: always
 
   sogo:
-    image: sheogorath/sogo:3.2
+    image: quay.io/sheogorath/sogo:3.2
     volumes:
       - './sogo/sogo.conf:/etc/sogo/sogo.conf'
     environment:
