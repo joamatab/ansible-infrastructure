@@ -1,0 +1,36 @@
+---
+# tasks for firewall config
+
+- name: Allow access to services
+  firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+    - smtp
+    - pop3s
+    - imaps
+  become: true
+
+- name: Allow access to specific ports
+  firewalld:
+    port: "{{ item }}/tcp"
+    state: enabled
+    permanent: true
+    immediate: true
+  with_items:
+    - 587
+    - 465
+    - 4190
+  become: true
+
+- name: Block access to legacy ports
+  firewalld:
+    port: "{{ item }}/tcp"
+    state: disabled
+    permanent: true
+    immediate: true
+  with_items:
+    - 110
+    - 143
+  become: true

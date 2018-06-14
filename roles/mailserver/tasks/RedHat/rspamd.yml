@@ -1,0 +1,61 @@
+---
+# tasks for rspamd
+
+# rspamd configs
+- name: Setup rspamd repo
+  yum_repository:
+    name: rspamd
+    description: Rspamd stable repository
+    baseurl: http://rspamd.com/rpm-stable/centos-7/x86_64/
+    gpgkey: http://rspamd.com/rpm/gpg.key
+    gpgcheck: true
+  become: true
+
+- name: Import rspamd key
+  rpm_key:
+    state: present
+    key: https://rspamd.com/rpm-stable/gpg.key
+  become: true
+
+- name: Install rspamd
+  yum:
+    name: rspamd
+    state: present
+  become: true
+
+- name: Copy rspamd override configs
+  copy:
+    src: "{{ item }}"
+    dest: /etc/rspamd/override.d/
+    owner: _rspamd
+    group: _rspamd
+  notify: restart rspamd
+  become: true
+  with_fileglob:
+    - "{{ role_path }}/files/rspamd/override.d/*"
+
+- name: Copy rspamd local configs
+  copy:
+    src: "{{ item }}"
+    dest: /etc/rspamd/local.d/
+    owner: _rspamd
+    group: _rspamd
+  notify: restart rspamd
+  become: true
+  with_fileglob:
+    - "{{ role_path }}/files/rspamd/local.d/*"
+
+- name: Start rspamd
+  systemd:
+    name: "rspamd.service"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: true
+
+- name: Create DKIM directory
+  file:
+    path: /var/lib/rspamd/dkim
+    owner: _rspamd
+    group: _rspamd
+  become: true

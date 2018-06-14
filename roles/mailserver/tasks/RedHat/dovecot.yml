@@ -1,0 +1,82 @@
+---
+# tasks for dovecot
+
+- name: "Install dovecot packages"
+  yum:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - dovecot
+    - dovecot-mysql
+    - dovecot-pigeonhole
+
+- name: Start services for postfix, dovecot, and fail2ban
+  systemd:
+    name: "dovecot.service"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: true
+
+- name: Install dovecot configs
+  copy:
+    src: "{{ item }}"
+    dest: /etc/dovecot/conf.d/
+    seuser: system_u
+    setype: dovecot_etc_t
+  notify: restart dovecot
+  become: true
+  with_fileglob:
+    - "{{ role_path }}/files/dovecot/*"
+
+- name: Install dovecot db configs
+  template:
+    src: dovecot/dovecot-sql.conf.ext
+    dest: /etc/dovecot/dovecot-sql.conf.ext
+    seuser: system_u
+    setype: dovecot_etc_t
+  notify: restart dovecot
+  become: true
+
+# vmail
+
+- name: Update default SELinux contexts for vmail
+  sefcontext:
+    target: "{{ item }}(/.*)?"
+    setype: "mail_spool_t"
+    state: present
+  with_items:
+    - "/var/vmail"
+  become: true
+
+- name: Create /var/vmail
+  file:
+    path: /var/vmail
+    state: directory
+    owner: vmail
+    group: vmail
+  become: true
+
+# groupadd -g 5000 vmail
+- name: Create group vmail
+  group:
+    name: vmail
+    state: present
+    gid: 5000
+    system: yes
+  become: true
+
+# useradd -g vmail -u 5000 vmail -d /var/vmail -Z system_u
+- name: Create user vmail
+  user:
+    name: vmail
+    state: present
+    uid: 5000
+    group: vmail
+    system: yes
+    create_home: no
+    home: /var/vmail
+    seuser: system_u
+    shell: /bin/bash
+  become: true

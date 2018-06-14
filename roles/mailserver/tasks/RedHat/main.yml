@@ -1,0 +1,13 @@
+---
+
+- name: Provide mailserver on RedHat
+  include_tasks: "{{ sub_taskfile }}.yml"
+  with_items:
+    - postfix
+    - dovecot
+    - rspamd
+    - docker
+    - fail2ban
+    - firewall
+  loop_control:
+    loop_var: sub_taskfile

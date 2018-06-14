@@ -1,0 +1,48 @@
+---
+# tasks for dovecot
+
+
+- name: "Install postfix package"
+  yum:
+    name: "postfix"
+    state: present
+  become: true
+
+- name: Start service postfix
+  systemd:
+    name: "postfix.service"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: true
+
+- name: Install postfix main.cf
+  copy:
+    src: postfix/main.cf
+    dest: /etc/postfix/main.cf
+    seuser: system_u
+    setype: postfix_etc_t
+  notify: restart postfix
+  become: true
+
+- name: Install postfix master.cf
+  copy:
+    src: postfix/master.cf
+    dest: /etc/postfix/master.cf
+    seuser: system_u
+    setype: postfix_etc_t
+  notify: restart postfix
+  become: true
+
+- name: Install postfix db configs
+  template:
+    src: "postfix/{{ item }}"
+    dest: "/etc/postfix/{{ item }}"
+    seuser: system_u
+    setype: postfix_etc_t
+  notify: restart postfix
+  with_items:
+    - mysql-virtual-alias-maps.cf
+    - mysql-virtual-mailbox-domains.cf
+    - mysql-virtual-mailbox-maps.cf
+  become: true
