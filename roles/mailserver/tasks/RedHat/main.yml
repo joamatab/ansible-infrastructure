@@ -7,7 +7,18 @@
     - dovecot
     - rspamd
     - docker
+    - tls
     - fail2ban
     - firewall
   loop_control:
     loop_var: sub_taskfile
+  tags:
+    - postfix
+    - database
+    - dovecot
+    - rspamd
+    - sogo
+    - docker
+    - fail2ban
+    - firewall
+    - certs

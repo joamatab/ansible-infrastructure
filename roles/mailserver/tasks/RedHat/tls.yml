@@ -1,0 +1,44 @@
+---
+# tasgs for TLS setup
+
+
+- name: Install export.sh
+  copy:
+    src: export/script.sh
+    dest: /var/srv/mailserver/export.sh
+    mode: 0755
+  become: true
+  tags:
+    - certs
+
+- name: Install systemd service
+  copy:
+    src: export/systemd.{{ item }}
+    dest: /etc/systemd/system/export.{{ item }}
+    seuser: system_u
+    setype: systemd_unit_file_t
+    serole: object_r
+    mode: 0644
+  with_items:
+    - service
+    - timer
+  become: true
+  tags:
+    - certs
+
+- name: run export.sh
+  command: /var/srv/mailserver/export.sh
+  args:
+    creates: /var/srv/mailserver/ssl/fullchain.pem
+  become: true
+  tags:
+    - certs
+
+- name: Enable export.timer
+  systemd:
+    name: export.timer
+    state: started
+    enabled: true
+  become: true
+  tags:
+    - certs

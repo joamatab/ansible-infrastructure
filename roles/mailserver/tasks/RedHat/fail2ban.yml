@@ -6,6 +6,18 @@
     name: "fail2ban"
     state: present
   become: true
+  tags:
+    - fail2ban
+
+- name: Start service fail2ban
+  systemd:
+    name: "fail2ban.service"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: true
+  tags:
+    - fail2ban
 
 - name: "Install fail2ban configs"
   copy:
@@ -16,3 +28,7 @@
     - dovecot
     - postfix
   become: true
+  tags:
+    - fail2ban
+    - dovecot
+    - postfix

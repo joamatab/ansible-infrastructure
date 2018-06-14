@@ -10,6 +10,8 @@
     - dovecot
     - dovecot-mysql
     - dovecot-pigeonhole
+  tags:
+    - dovecot
 
 - name: Start services for postfix, dovecot, and fail2ban
   systemd:
@@ -18,6 +20,8 @@
     enabled: yes
     daemon_reload: yes
   become: true
+  tags:
+    - dovecot
 
 - name: Install dovecot configs
   copy:
@@ -29,6 +33,8 @@
   become: true
   with_fileglob:
     - "{{ role_path }}/files/dovecot/*"
+  tags:
+    - dovecot
 
 - name: Install dovecot db configs
   template:
@@ -38,9 +44,10 @@
     setype: dovecot_etc_t
   notify: restart dovecot
   become: true
+  tags:
+    - dovecot
 
 # vmail
-
 - name: Update default SELinux contexts for vmail
   sefcontext:
     target: "{{ item }}(/.*)?"
@@ -49,6 +56,9 @@
   with_items:
     - "/var/vmail"
   become: true
+  tags:
+    - vmail
+    - selinux
 
 - name: Create /var/vmail
   file:
@@ -57,6 +67,8 @@
     owner: vmail
     group: vmail
   become: true
+  tags:
+    - vmail
 
 # groupadd -g 5000 vmail
 - name: Create group vmail
@@ -66,6 +78,9 @@
     gid: 5000
     system: yes
   become: true
+  tags:
+    - vmail
+    - group
 
 # useradd -g vmail -u 5000 vmail -d /var/vmail -Z system_u
 - name: Create user vmail
@@ -80,3 +95,6 @@
     seuser: system_u
     shell: /bin/bash
   become: true
+  tags:
+    - vmail
+    - user

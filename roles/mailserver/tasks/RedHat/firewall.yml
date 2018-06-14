@@ -11,6 +11,8 @@
     - pop3s
     - imaps
   become: true
+  tags:
+    - firewall
 
 - name: Allow access to specific ports
   firewalld:
@@ -23,6 +25,8 @@
     - 465
     - 4190
   become: true
+  tags:
+    - firewall
 
 - name: Block access to legacy ports
   firewalld:
@@ -34,3 +38,5 @@
     - 110
     - 143
   become: true
+  tags:
+    - firewall

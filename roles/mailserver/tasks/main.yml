@@ -9,3 +9,13 @@
     - "{{ ansible_os_family }}"
   loop_control:
     loop_var: distro_file
+  tags:
+    - postfix
+    - database
+    - dovecot
+    - rspamd
+    - sogo
+    - docker
+    - fail2ban
+    - firewall
+    - certs

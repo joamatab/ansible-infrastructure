@@ -7,6 +7,8 @@
     name: "postfix"
     state: present
   become: true
+  tags:
+    - postfix
 
 - name: Start service postfix
   systemd:
@@ -15,6 +17,8 @@
     enabled: yes
     daemon_reload: yes
   become: true
+  tags:
+    - postfix
 
 - name: Install postfix main.cf
   copy:
@@ -24,6 +28,8 @@
     setype: postfix_etc_t
   notify: restart postfix
   become: true
+  tags:
+    - postfix
 
 - name: Install postfix master.cf
   copy:
@@ -33,6 +39,8 @@
     setype: postfix_etc_t
   notify: restart postfix
   become: true
+  tags:
+    - postfix
 
 - name: Install postfix db configs
   template:
@@ -46,3 +54,5 @@
     - mysql-virtual-mailbox-domains.cf
     - mysql-virtual-mailbox-maps.cf
   become: true
+  tags:
+    - postfix

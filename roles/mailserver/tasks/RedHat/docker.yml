@@ -13,6 +13,8 @@
     - "/var/srv/mailserver/sogo"
     - "/var/srv/mailserver/nginx"
   become: true
+  tags:
+    - selinux
 
 - name: Update default SELinux contexts for postfix TLS
   sefcontext:
@@ -22,6 +24,8 @@
   with_items:
     - "/var/srv/mailserver/ssl"
   become: true
+  tags:
+    - selinux
 
 - name: Deploy sogo.conf
   template:
@@ -29,6 +33,8 @@
     dest: "/var/srv/mailserver/sogo/sogo.conf"
     setype: "container_file_t"
   become: true
+  tags:
+    - sogo
 
 - name: Deploy nginx.conf
   template:
@@ -36,12 +42,21 @@
     dest: "/var/srv/mailserver/nginx/nginx.conf"
     setype: "container_file_t"
   become: true
+  tags:
+    - sogo-nginx
 
 - name: Deploy docker-compose.yml
   template:
     src: docker-compose.yml
     dest: "/var/srv/mailserver/docker-compose.yml"
   become: true
+  tags:
+    - docker
+    - sogo
+    - nginx
+    - database
+    - dovecot
+    - postfix
 
 - name: Compose mailserver docker
   docker_service:
@@ -49,36 +64,10 @@
     project_src:  "/var/srv/mailserver/"
     pull: yes
   become: true
-
-- name: Install export.sh
-  copy:
-    src: export/script.sh
-    dest: /var/srv/mailserver/export.sh
-    mode: 0755
-  become: true
-
-- name: Install systemd service
-  copy:
-    src: export/systemd.{{ item }}
-    dest: /etc/systemd/system/export.{{ item }}
-    seuser: system_u
-    setype: systemd_unit_file_t
-    serole: object_r
-    mode: 0644
-  with_items:
-    - service
-    - timer
-  become: true
-
-- name: run export.sh
-  command: /var/srv/mailserver/export.sh
-  args:
-    creates: /var/srv/mailserver/ssl/fullchain.pem
-  become: true
-
-- name: Enable export.timer
-  systemd:
-    name: export.timer
-    state: started
-    enabled: true
-  become: true
+  tags:
+    - docker
+    - sogo
+    - nginx
+    - database
+    - dovecot
+    - postfix

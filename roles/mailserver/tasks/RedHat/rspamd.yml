@@ -10,18 +10,24 @@
     gpgkey: http://rspamd.com/rpm/gpg.key
     gpgcheck: true
   become: true
+  tags:
+    - rspamd
 
 - name: Import rspamd key
   rpm_key:
     state: present
     key: https://rspamd.com/rpm-stable/gpg.key
   become: true
+  tags:
+    - rspamd
 
 - name: Install rspamd
   yum:
     name: rspamd
     state: present
   become: true
+  tags:
+    - rspamd
 
 - name: Copy rspamd override configs
   copy:
@@ -33,6 +39,8 @@
   become: true
   with_fileglob:
     - "{{ role_path }}/files/rspamd/override.d/*"
+  tags:
+    - rspamd
 
 - name: Copy rspamd local configs
   copy:
@@ -44,6 +52,8 @@
   become: true
   with_fileglob:
     - "{{ role_path }}/files/rspamd/local.d/*"
+  tags:
+    - rspamd
 
 - name: Start rspamd
   systemd:
@@ -52,6 +62,8 @@
     enabled: yes
     daemon_reload: yes
   become: true
+  tags:
+    - rspamd
 
 - name: Create DKIM directory
   file:
@@ -59,3 +71,5 @@
     owner: _rspamd
     group: _rspamd
   become: true
+  tags:
+    - rspamd
