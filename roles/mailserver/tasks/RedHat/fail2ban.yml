@@ -1,0 +1,18 @@
+---
+# tasks for fail2ban
+
+- name: "Install fail2ban package"
+  yum:
+    name: "fail2ban"
+    state: present
+  become: true
+
+- name: "Install fail2ban configs"
+  copy:
+    src: "fail2ban/{{ item }}.conf"
+    dest: "/etc/fail2ban/jail.d/10-{{ item }}.conf"
+  notify: restart fail2ban
+  with_items:
+    - dovecot
+    - postfix
+  become: true
