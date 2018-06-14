@@ -710,6 +710,7 @@ smtpd_client_message_rate_limit = 30
 
 # Require TLS for outgoing mails
 smtp_tls_mandatory_ciphers = high
+smtp_tls_ciphers = high
 smtp_tls_mandatory_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 smtp_tls_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
-smtp_tls_security_level = high
+smtp_tls_security_level = may
