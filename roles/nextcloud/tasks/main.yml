@@ -30,7 +30,7 @@
 
 - name: Deploy docker-compose.yml
   template:
-    src: docker-compose.yml.j2
+    src: docker-compose.yml
     dest: "{{ nextcloud_install_location }}/docker-compose.yml"
   register: docker_compose_yml
   tags:
