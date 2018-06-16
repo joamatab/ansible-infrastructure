@@ -10,6 +10,8 @@
   with_items:
     - "{{ static_websites_install_location }}"
   become: true
+  tags:
+    - deploy_sites
 
 
 - name: Deploy docker-compose.yml
@@ -19,6 +21,7 @@
   register: docker_compose_yml
   tags:
     - docker
+    - deploy_sites
   become: true
 
 
@@ -28,3 +31,5 @@
     project_src:  "{{ static_websites_install_location }}"
     pull: yes
   become: true
+  tags:
+    - deploy_sites
