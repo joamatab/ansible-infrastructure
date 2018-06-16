@@ -3,6 +3,8 @@ version: '2'
 services:
   mumble:
     image: sheogorath/murmur-docker:{{ mumble_image_version }}
+    mem_limit: 256mb
+    memswap_limit: 512mb
     environment:
       - "MUMBLE_REGISTERHOSTNAME={{ mumble_domain }}"
       - "MUMBLE_DEFAULTCHANNEL={{ mumble_defaultchannel }}"
@@ -19,6 +21,8 @@ services:
 {% if mumble_websocket_domain is defined %}
   websockify:
     image: efrecon/websockify
+    mem_limit: 64mb
+    memswap_limit: 128mb
     labels:
       - "traefik.frontend.rule=Host:{{ mumble_websocket_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
@@ -37,6 +41,8 @@ services:
 {% if mumble_webend_domain is defined %}
   webend:
     image: sheogorath/mumble-web
+    mem_limit: 32mb
+    mem_limit: 64mb
     labels:
       - "traefik.frontend.rule=Host:{{ mumble_webend_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
@@ -54,6 +60,8 @@ services:
 {% for bot in mumble_bots %}
   {{ bot.mumblechannel }}:
     image: sheogorath/docker-sftmumblebot:latest
+    mem_limit: 32mb
+    mem_limit: 64mb
     environment:
       - "BOT_IRC_SERVER={{ bot.ircserver }}"
       - "BOT_IRC_CHANNEL={{ bot.ircchannel }}"
