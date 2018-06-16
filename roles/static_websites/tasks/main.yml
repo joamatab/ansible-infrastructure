@@ -19,7 +19,6 @@
   register: docker_compose_yml
   tags:
     - docker
-    - nextcloud
   become: true
 
 
