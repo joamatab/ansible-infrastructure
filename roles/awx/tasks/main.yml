@@ -1,0 +1,48 @@
+---
+# tasks file for AWX
+
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "container_file_t"
+    state: present
+  with_items:
+    - "{{ awx_database_location }}"
+    - "{{ awx_projects_location }}"
+  become: true
+  tags:
+    - awx
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    setype: "container_file_t"
+  with_items:
+    - "{{ awx_install_location }}"
+    - "{{ awx_database_location }}"
+    - "{{ awx_projects_location }}"
+  become: true
+  tags:
+    - awx
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ awx_install_location }}/docker-compose.yml"
+  register: docker_compose_yml
+  tags:
+    - docker
+    - awx
+  become: true
+
+- name: Compose AWX
+  docker_service:
+    state: present
+    project_src:  "{{ awx_install_location }}"
+    pull: yes
+  register: compose_hackmd
+  become: true
+  tags:
+    - docker
+    - awx

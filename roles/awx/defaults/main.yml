@@ -1,0 +1,20 @@
+---
+# defaults for AWX
+awx_install_location: /var/srv/awx
+awx_database_location: "{{ awx_install_location }}/database"
+awx_projects_location: "{{ awx_install_location }}/projects"
+
+awx_version: "1.0"
+
+awx_domain: awx.example.com
+
+awx_database_user: awx
+awx_database_password: awx
+
+awx_rabbitmq_user: awx
+awx_rabbitmq_password: awx
+
+awx_secret_key: aabbcc
+
+awx_admin_user: admin
+awx_admin_password: password
