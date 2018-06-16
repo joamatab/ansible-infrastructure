@@ -3,6 +3,8 @@ version: '2'
 services:
   ghost:
     image: ghost:{{ ghost_image_version }}
+    mem_limit: 128mb
+    memswap_limit: 256mb
     environment:
       - "NODE_ENV=production"
     volumes:
@@ -24,6 +26,8 @@ services:
 
   isso:
     image: sheogorath/isso-docker:{{ ghost_isso_image_version }}
+    mem_limit: 256mb
+    memswap_limit: 512mb
     environment:
       - "ISSO_NAME={{ ghost_domain }}"
       - "ISSO_HOST=https://{{ ghost_domain }}/"
