@@ -5,6 +5,8 @@ services:
 
   {{ key }}:
     image: "{{ value.image }}"
+    mem_limit: 10mb
+    memswap_limit: 15mb
     labels:
       - "traefik.frontend.rule=Host:{{ value.domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
