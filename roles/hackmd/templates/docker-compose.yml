@@ -3,6 +3,8 @@ version: '2'
 services:
   database:
     image: postgres:{{ hackmd_postgres_image_version }}
+    mem_limit: 256mb
+    memswap_limit: 512mb
     environment:
       - POSTGRES_USER=hackmd
       - POSTGRES_PASSWORD=hackmdpass
@@ -16,6 +18,8 @@ services:
     restart: always
   hackmd:
     image:  hackmdio/hackmd:{{ hackmd_image_version }}
+    mem_limit: 256mb
+    memswap_limit: 512mb
     environment:
       - POSTGRES_USER=hackmd
       - POSTGRES_PASSWORD=hackmdpass
