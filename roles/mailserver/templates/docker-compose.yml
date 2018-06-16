@@ -3,6 +3,8 @@ version: '2'
 services:
   database:
     image: mariadb
+    mem_limit: 256mb
+    memswap_limit: 512mb
     environment:
       - "MYSQL_ROOT_PASSWORD={{ mailserver_db_password }}"
     volumes:
@@ -16,6 +18,8 @@ services:
 
   sogo:
     image: quay.io/sheogorath/sogo:3.2
+    mem_limit: 256mb
+    memswap_limit: 512mb
     volumes:
       - './sogo/sogo.conf:/etc/sogo/sogo.conf'
     environment:
@@ -35,12 +39,16 @@ services:
 
   memcached:
     image: memcached:1.4-alpine
+    mem_limit: 64mb
+    memswap_limit: 128mb
     networks:
       memcache:
     restart: always
 
   nginx:
     image: nginx
+    mem_limit: 16mb
+    memswap_limit: 32mb
     volumes_from:
       - "sogo:ro"
     volumes:
@@ -62,7 +70,8 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:4.7
-
+    mem_limit: 64mb
+    memswap_limit: 128mb
     networks:
       database:
 {% if proxy_network is defined %}
