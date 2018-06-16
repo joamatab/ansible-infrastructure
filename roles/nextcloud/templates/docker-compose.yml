@@ -3,6 +3,8 @@ version: '2'
 services:
   database:
     image: "mariadb:{{ nextcloud_database_image_version }}"
+    mem_limit: 512mb
+    memswap_limit: 1024mb
     environment:
       - "MYSQL_DATABASE=nextcloud"
       - "MYSQL_USER=nextcloud"
@@ -16,6 +18,8 @@ services:
 
   nextcloud:
     image: "nextcloud:{{ nextcloud_image_version }}"
+    mem_limit: 256mb
+    memswap_limit: 512mb
     volumes:
       - "{{ nextcloud_apps_location }}:/var/www/html/apps"
       - "{{ nextcloud_data_location }}:/var/www/html/data"
@@ -38,6 +42,8 @@ services:
 {% if nextcloud_collabora_domain != "office.example.com" %}
   collabora:
     image: collabora/code:{{ nextcloud_collabora_image_version }}
+    mem_limit: 256mb
+    memswap_limit: 512mb
     environment:
       - "domain={{ nextcloud_domain }}"
     labels:
@@ -57,12 +63,16 @@ services:
 
   memcache:
     image: memcached:{{ nextcloud_memcache_image_version }}
+    mem_limit: 64mb
+    memswap_limit: 128mb
     networks:
       nextcloud:
     restart: always
 
   cron:
     image: nextcloud:{{ nextcloud_image_version }}
+    mem_limit: 128mb
+    memswap_limit: 256mb
     volumes_from:
       - nextcloud
     user: www-data
