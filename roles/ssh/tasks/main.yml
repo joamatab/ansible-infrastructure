@@ -1,19 +1,9 @@
 ---
-
-- name: Install ssh keys
-  authorized_key:
-    user: "{{ item.user }}"
-    state: present
-    key: "{{ item.key }}"
-    comment: "{{ item.owner }} - {{ item.comment }} | Managed by Ansible"
-  with_items:
-    - "{{ ssh_authorized_keys }}"
-  become: true
-
-- name: Set ratelimit for SSH
-  firewalld:
-    rich_rule: "rule service name=ssh limit value=10/m accept"
-    state: enabled
-    permanent: true
-    immediate: true
-  become: true
+- name: "Select tasks for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
+  include_tasks: "{{ distro_file }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  loop_control:
+    loop_var: distro_file

@@ -1,0 +1,11 @@
+---
+
+- name: Install ssh keys
+  authorized_key:
+    user: "{{ item.user }}"
+    state: present
+    key: "{{ item.key }}"
+    comment: "{{ item.owner }} - {{ item.comment }} | Managed by Ansible"
+  with_items:
+    - "{{ ssh_authorized_keys }}"
+  become: true
