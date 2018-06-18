@@ -1,0 +1,18 @@
+---
+# GitLab integration for tower deployment
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  image: python:3-alpine
+  before_script:
+    - pip install ansible-tower-cli
+  script:
+    - tower-cli config host $CD_TOWER_HOST >/dev/null
+    - tower-cli login --password=$CD_TOWER_PASSWORD $CD_TOWER_USER >/dev/null
+    - tower-cli job launch -J $CD_TOWER_JOB_TEMPLATE -f id
+  after_script:
+    - tower-cli logout
+  only:
+    - deploy
