@@ -48,7 +48,8 @@
   become: true
 
 
-- stat: path="{{ nextcloud_config_location }}/config.php"
+- name: Check for existing config
+  stat: path="{{ nextcloud_config_location }}/config.php"
   register: nextcloud_config_php
 
 
