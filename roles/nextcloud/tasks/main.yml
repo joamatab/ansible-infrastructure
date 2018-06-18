@@ -56,7 +56,7 @@
   pause:
     minutes: 1
   when:
-    - compose_nextcloud|changed
+    - compose_nextcloud is changed
     - nextcloud_config_php.stat.exists == False
 
 
@@ -82,6 +82,6 @@
 - name: Configure nextcloud
   command: docker exec -u 33 nextcloud_nextcloud_1 /usr/local/bin/php ./occ config:import config/ansible.json
   when:
-    - nextcloud_config|changed
+    - nextcloud_config is changed
     - nextcloud_config_php.stat.exists == False
   become: true

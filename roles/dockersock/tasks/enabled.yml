@@ -21,4 +21,4 @@
   command: "semodule -i /tmp/dockersock.pp"
   become: true
   when:
-    - package_policy|changed
+    - package_policy is changed
