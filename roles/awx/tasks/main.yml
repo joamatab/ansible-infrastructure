@@ -29,6 +29,8 @@
   template:
     src: docker-compose.yml
     dest: "{{ awx_install_location }}/docker-compose.yml"
+    mode: 0600
+    owner: root
   register: docker_compose_yml
   tags:
     - docker
