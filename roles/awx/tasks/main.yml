@@ -17,7 +17,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    setype: "container_file_t"
   with_items:
     - "{{ awx_install_location }}"
     - "{{ awx_database_location }}"
