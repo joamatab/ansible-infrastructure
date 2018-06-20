@@ -1,7 +1,7 @@
 ---
 # tasks for sogo, the mysql db and more running on docker
 
-# SELinxu configs
+# SELinux configs
 - name: Update default SELinux contexts for containers
   sefcontext:
     target: "{{ item }}(/.*)?"
