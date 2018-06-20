@@ -16,7 +16,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    setype: "container_file_t"
   with_items:
     - "{{ ghost_install_location }}"
     - "{{ ghost_blog_data_location }}"
