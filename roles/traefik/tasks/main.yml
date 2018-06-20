@@ -14,7 +14,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    setype: "container_file_t"
   with_items:
     - "{{ traefik_install_location }}"
     - "{{ traefik_acme_location }}"

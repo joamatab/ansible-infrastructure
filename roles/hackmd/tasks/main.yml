@@ -15,7 +15,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    setype: "container_file_t"
   with_items:
     - "{{ hackmd_install_location }}"
     - "{{ hackmd_database_location }}"

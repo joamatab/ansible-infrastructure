@@ -15,7 +15,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    setype: "container_file_t"
   with_items:
     - "{{ gitlabrunner_install_location }}"
     - "{{ gitlabrunner_config_location }}"

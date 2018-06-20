@@ -18,7 +18,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    setype: "container_file_t"
   with_items:
     - "{{ nextcloud_install_location }}"
     - "{{ nextcloud_apps_location }}"
