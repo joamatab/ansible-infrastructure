@@ -2,6 +2,8 @@ version: '2'
 services:
   database:
     image: "postgres:9.6-alpine"
+    mem_limit: 128mb
+    memswap_limit: 256mb
     environment:
       POSTGRES_USER: {{ awx_database_user }}
       POSTGRES_PASSWORD: {{ awx_database_password }}
@@ -14,6 +16,8 @@ services:
 
   rabbitmq:
     image: "rabbitmq:3-alpine"
+    mem_limit: 256mb
+    memswap_limit: 512mb
     environment:
       RABBITMQ_DEFAULT_VHOST: awx
       RABBITMQ_DEFAULT_USER: {{ awx_rabbitmq_user }}
@@ -23,6 +27,8 @@ services:
     restart: always
 
   memcached:
+    mem_limit: 128mb
+    memswap_limit: 256mb
     image: "memcached:alpine"
     networks:
       backend:
@@ -30,6 +36,8 @@ services:
 
   web:
     image: "ansible/awx_web:{{ awx_version }}"
+    mem_limit: 1536mb
+    memswap_limit: 2gb
     hostname: awxweb
     user: root
     labels:
@@ -77,6 +85,8 @@ services:
 
   task:
     image: "ansible/awx_task:{{ awx_version }}"
+    mem_limit: 1228mb
+    memswap_limit: 2gb
     hostname: awx
     user: root
     environment:
