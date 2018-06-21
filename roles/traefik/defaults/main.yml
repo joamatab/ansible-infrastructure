@@ -1,5 +1,5 @@
 ---
-traefik_version: 1.6.3
+traefik_version: 1.6.4
 traefik_install_location: /var/srv/traefik
 traefik_acme_location: "{{ traefik_install_location }}/acme"
 
