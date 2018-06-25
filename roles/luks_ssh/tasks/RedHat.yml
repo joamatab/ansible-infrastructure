@@ -19,7 +19,7 @@
   copy:
     src: "module-setup.sh"
     dest: "{{ dracut_ssh_dir }}/module-setup.sh"
-    mode: 755
+    mode: 0755
   become: true
   notify: Regenerate dracut
 

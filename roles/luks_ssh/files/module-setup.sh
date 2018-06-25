@@ -31,7 +31,7 @@ install() {
     else
         ssh_host_key=/etc/ssh/ssh_host_ed25519_key
     fi
-    authorized_keys=${moddir}/authorized_keys
+    authorized_keys="${moddir}/authorized_keys"
 
     inst_simple "$ssh_host_key".pub /etc/ssh/ssh_host_ed25519_key.pub
     /usr/bin/install -m 600 "$ssh_host_key" \

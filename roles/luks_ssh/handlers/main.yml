@@ -7,7 +7,7 @@
   listen: Regenerate grub config
   become: true
 
-- name: Regenerate grub config BIOS
+- name: Regenerate grub config EFI
   command: grub2-mkconfig -o  /etc/grub2-efi.cfg
   listen: Regenerate grub config
   become: true
