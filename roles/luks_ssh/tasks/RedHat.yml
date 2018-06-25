@@ -1,0 +1,49 @@
+---
+
+- name: Create dracut extension
+  file:
+    path: "{{ dracut_ssh_dir }}"
+    state: directory
+  become: true
+
+- name: Add SSH key for grub2
+  authorized_key:
+    user: "root"
+    state: present
+    key: "{{ dracut_ssh_key }}"
+    path: "{{ dracut_ssh_dir }}/authorized_keys"
+  become: true
+  notify: Regenerate dracut
+
+- name: Copy module setup file
+  copy:
+    src: "module-setup.sh"
+    dest: "{{ dracut_ssh_dir }}/module-setup.sh"
+    mode: 755
+  become: true
+  notify: Regenerate dracut
+
+- name: Copy module files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ dracut_ssh_dir }}/{{ item }}"
+  become: true
+  with_items:
+    - "sshd_config"
+    - "sshd.service"
+  notify: Regenerate dracut
+
+- name: Install dracut network
+  yum:
+    name: dracut-network
+    state: present
+  become: true
+  notify: Regenerate dracut
+
+- name: Configure grub
+  lineinfile:
+    path: /etc/sysconfig/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="rd.neednet=1 ip=dhcp"'
+  become: true
+  notify: Regenerate grub config

@@ -1,0 +1,5 @@
+---
+- hosts: luks_ssh
+  roles:
+    - sys-upgrade
+    - luks_ssh

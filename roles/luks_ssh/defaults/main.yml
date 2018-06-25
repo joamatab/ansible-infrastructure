@@ -1,0 +1,4 @@
+---
+
+dracut_ssh_dir: /usr/lib/dracut/modules.d/46sshd/
+dracut_ssh_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"

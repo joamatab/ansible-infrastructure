@@ -1,0 +1,13 @@
+- name: Regenerate dracut
+  command: dracut -f
+  become: true
+
+- name: Regenerate grub config BIOS
+  command: grub2-mkconfig -o  /etc/grub2.cfg
+  listen: Regenerate grub config
+  become: true
+
+- name: Regenerate grub config BIOS
+  command: grub2-mkconfig -o  /etc/grub2-efi.cfg
+  listen: Regenerate grub config
+  become: true
