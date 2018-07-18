@@ -50,3 +50,15 @@
     project_src: "{{ traefik_install_location }}"
     pull: yes
   become: true
+
+- name: Allow access to services
+  firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+    - http
+    - https
+  become: true
+  tags:
+    - firewall
