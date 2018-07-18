@@ -8,6 +8,14 @@
     - "docker"
   become: true
 
+- name: Set network configs for docker
+  template:
+    src: docker-network-env
+    dest: "/etc/sysconfig/docker-network"
+    mode: 0644
+  become: true
+  notify: restart docker
+
 - name: Ensure docker is started and enabled
   systemd:
     name: docker
