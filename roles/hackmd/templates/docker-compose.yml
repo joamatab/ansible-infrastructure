@@ -5,6 +5,9 @@ services:
     image: postgres:{{ hackmd_postgres_image_version }}
     mem_limit: 256mb
     memswap_limit: 512mb
+    read_only: true
+    tmpfs:
+      - /run/postgresql:size=512K
     environment:
       - POSTGRES_USER=hackmd
       - POSTGRES_PASSWORD=hackmdpass
