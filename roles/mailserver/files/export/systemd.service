@@ -4,4 +4,4 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/var/srv/mailserver/export.sh
+ExecStart=/bin/bash /var/srv/mailserver/export.sh
