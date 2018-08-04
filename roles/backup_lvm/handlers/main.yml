@@ -1,0 +1,20 @@
+---
+- name: Unmount snapshot
+  mount:
+    path: "/backup_snapshots/{{ item.lv_name }}"
+    src: "/dev/{{ item.vg_name }}/{{ item.lv_name }}_snap"
+    state: absent
+  become: true
+  with_items:
+    - "{{ backup_vols }}"
+
+- name: Remove snapshot
+  lvol:
+    vg: "{{ item.vg_name }}"
+    lv: "{{ item.lv_name }}"
+    snapshot: "{{ item.lv_name }}_snap"
+    state: absent
+    force: yes
+  become: true
+  with_items:
+    - "{{ backup_vols }}"

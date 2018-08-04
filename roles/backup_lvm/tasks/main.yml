@@ -1,0 +1,44 @@
+
+- name: Install duplicity
+  yum:
+    name: "duplicity"
+    state: present
+  become: true
+
+- name: Create a snapshot volume of logical volume
+  lvol:
+    vg: "{{ item.vg_name }}"
+    lv: "{{ item.lv_name }}"
+    snapshot: "{{ item.lv_name }}_snap"
+    size: 1G
+  become: true
+  notify: Remove snapshot
+  with_items:
+    - "{{ backup_vols }}"
+
+- name: Create backup mount directories
+  file:
+    path: "/backup_snapshots/{{ item.lv_name }}"
+    state: directory
+    recurse: true
+  become: true
+  with_items:
+    - "{{ backup_vols }}"
+
+- name: Mount snapshot
+  mount:
+    path: "/backup_snapshots/{{ item.lv_name }}"
+    src: "/dev/{{ item.vg_name }}/{{ item.lv_name }}_snap"
+    opts: ro,nouuid,nosuid,noexec
+    fstype: xfs
+    state: mounted
+  become: true
+  notify: Unmount snapshot
+  with_items:
+    - "{{ backup_vols }}"
+
+- name: Create backup using duplicity
+  command: "duplicity --full-if-older-than 1M --encrypt-sign-key {{ backup_gpg.id }} /backup_snapshots/ "
+  environment:
+    PASSPHRASE: "{{ backup_gpg.passphrase }}"
+  become: true

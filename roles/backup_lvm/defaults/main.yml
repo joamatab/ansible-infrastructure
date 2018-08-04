@@ -1,0 +1,7 @@
+
+backup_vols: []
+backup_target: ""
+
+backup_gpg:
+  id: ""
+  passphrase: ""
