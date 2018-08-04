@@ -3,7 +3,7 @@
   mount:
     path: "/backup_snapshots/{{ item.lv_name }}"
     src: "/dev/{{ item.vg_name }}/{{ item.lv_name }}_snap"
-    state: unmounted
+    state: absent
   become: true
   with_items:
     - "{{ backup_vols }}"
