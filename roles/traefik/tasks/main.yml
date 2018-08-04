@@ -62,3 +62,25 @@
   become: true
   tags:
     - firewall
+
+- name: Allow access to services
+  firewalld:
+    port: "{{ item }}/tcp"
+    state: enabled
+    immediate: true
+  with_items:
+    - 8080
+  become: true
+  when:
+    - traefik_debug is defined and traefik_debug
+
+- name: Allow access to services
+  firewalld:
+    port: "{{ item }}/tcp"
+    state: disabled
+    immediate: true
+  with_items:
+    - 8080
+  become: true
+  when:
+    - traefik_debug is not defined or not traefik_debug
