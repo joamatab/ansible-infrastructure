@@ -2,4 +2,5 @@
 - hosts: luks_ssh
   roles:
     - sys-upgrade
+    - haveged
     - luks_ssh

@@ -1,0 +1,15 @@
+# tasks for haveged
+
+- name: Install haveged
+  yum:
+    name: haveged
+    state: present
+  become: true
+
+- name: Start service haveged
+  systemd:
+    name: "haveged.service"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: true
