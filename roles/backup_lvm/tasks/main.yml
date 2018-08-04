@@ -38,7 +38,7 @@
     - "{{ backup_vols }}"
 
 - name: Create backup using duplicity
-  command: "duplicity --full-if-older-than 1M --encrypt-sign-key {{ backup_gpg.id }} /backup_snapshots/ "
+  command: "duplicity --full-if-older-than 1M --encrypt-sign-key {{ backup_gpg.id }} /backup_snapshots/ {{ backup_target }}"
   environment:
     PASSPHRASE: "{{ backup_gpg.passphrase }}"
   become: true
