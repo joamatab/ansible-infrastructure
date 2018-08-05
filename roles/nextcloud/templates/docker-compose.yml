@@ -15,6 +15,7 @@ services:
     networks:
       nextcloud:
     restart: always
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
 
   nextcloud:
     image: "nextcloud:{{ nextcloud_image_version }}"
