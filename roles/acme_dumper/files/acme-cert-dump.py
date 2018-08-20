@@ -63,9 +63,9 @@ def read_domain_certs(acme_json_path, domain):
     with open(acme_json_path) as acme_json_file:
         acme_json = json.load(acme_json_file)
 
-    certs_json = acme_json['DomainsCertificate']['Certs']
-    domain_certs = [cert['Certificate'] for cert in certs_json
-                    if cert['Domains']['Main'] == domain]
+    certs_json = acme_json['Certificates']
+    domain_certs = [cert for cert in certs_json
+                    if cert['Domain']['Main'] == domain]
 
     if not domain_certs:
         raise RuntimeError(
@@ -75,7 +75,7 @@ def read_domain_certs(acme_json_path, domain):
             'More than one (%d) certificates for domain "%s"' % (domain,))
 
     [domain_cert] = domain_certs
-    return (base64.b64decode(domain_cert['PrivateKey']),
+    return (base64.b64decode(domain_cert['Key']),
             base64.b64decode(domain_cert['Certificate']))
 
 
