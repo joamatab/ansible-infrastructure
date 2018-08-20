@@ -5,6 +5,8 @@ services:
     image: "mariadb:{{ nextcloud_database_image_version }}"
     mem_limit: 512mb
     memswap_limit: 1024mb
+    security_opt:
+      - no-new-privileges
     environment:
       - "MYSQL_DATABASE=nextcloud"
       - "MYSQL_USER=nextcloud"
@@ -21,6 +23,8 @@ services:
     image: "nextcloud:{{ nextcloud_image_version }}"
     mem_limit: 256mb
     memswap_limit: 512mb
+    security_opt:
+      - no-new-privileges
     volumes:
       - "{{ nextcloud_apps_location }}:/var/www/html/apps"
       - "{{ nextcloud_data_location }}:/var/www/html/data"
@@ -45,6 +49,8 @@ services:
     image: collabora/code:{{ nextcloud_collabora_image_version }}
     mem_limit: 256mb
     memswap_limit: 512mb
+    security_opt:
+      - no-new-privileges
     environment:
       - "domain={{ nextcloud_domain }}"
     labels:
@@ -66,6 +72,8 @@ services:
     image: memcached:{{ nextcloud_memcache_image_version }}
     mem_limit: 64mb
     memswap_limit: 128mb
+    security_opt:
+      - no-new-privileges
     networks:
       nextcloud:
     restart: always
@@ -74,6 +82,8 @@ services:
     image: nextcloud:{{ nextcloud_image_version }}
     mem_limit: 128mb
     memswap_limit: 256mb
+    security_opt:
+      - no-new-privileges
     volumes_from:
       - nextcloud
     user: www-data
