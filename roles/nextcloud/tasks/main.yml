@@ -43,6 +43,7 @@
     state: present
     project_src:  "{{ nextcloud_install_location }}"
     pull: yes
+  notify: Update htaccess
   register: compose_nextcloud
   become: true
 
@@ -81,6 +82,8 @@
 
 - name: Configure nextcloud
   command: docker exec -u 33 nextcloud_nextcloud_1 /usr/local/bin/php ./occ config:import config/ansible.json
+  args:
+    chdir: "{{ nextcloud_install_location }}"
   when:
     - nextcloud_config is changed
     - nextcloud_config_php.stat.exists == False
