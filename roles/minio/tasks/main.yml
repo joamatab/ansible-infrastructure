@@ -1,0 +1,55 @@
+---
+# tasks file for Minio
+
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "container_file_t"
+    state: present
+  with_items:
+    - "{{ minio_data_location }}"
+  tags:
+    - minio
+  become: true
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ minio_install_location }}"
+    - "{{ minio_data_location }}"
+  become: true
+  tags:
+    - minio
+
+- name: Create directory
+  file:
+    path: "{{ minio_data_location }}/{{ item.key }}"
+    state: directory
+  with_dict:
+    - "{{ minio_users }}"
+  tags:
+    - minio
+  become: true
+  no_log: True
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ minio_install_location }}/docker-compose.yml"
+  register: docker_compose_yml
+  tags:
+    - docker
+    - minio
+  become: true
+
+- name: Compose minio
+  docker_service:
+    state: present
+    project_src:  "{{ minio_install_location }}"
+    pull: yes
+  register: compose_hackmd
+  tags:
+    - minio
+  become: true

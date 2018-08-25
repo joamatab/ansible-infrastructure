@@ -1,0 +1,45 @@
+{{ ansible_managed | comment }}
+version: '2'
+services:
+{% for key, value in minio_users.iteritems() %}
+
+  {{ key }}:
+    image:  minio/minio:{{ minio_version }}
+    mem_limit: 256mb
+    memswap_limit: 512mb
+    read_only: true
+    tmpfs:
+      - /root/.minio:size=128K
+    environment:
+      - "MINIO_ACCESS_KEY={{ value.access_key }}"
+      - "MINIO_SECRET_KEY={{ value.secret_key }}"
+      - "MINIO_BROWSER={{ value.browser | default("off") }}"
+      - "MINIO_DOMAIN={{ key }}.{{ minio_domain }}"
+    volumes:
+      - "{{ minio_data_location }}/{{ key }}:/data"
+    labels:
+      - "traefik.frontend.rule=Host:{{ key }}.{{ minio_domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.enable=true"
+      - "traefik.port=9000"
+{% if proxy_network is defined %}
+      - "traefik.docker.network={{ proxy_network }}"
+{% endif %}
+
+{% if proxy_network is defined %}
+    networks:
+      {{ proxy_network }}:
+{% endif %}
+
+    command: ["server", "/data"]
+    restart: always
+
+{% endfor %}
+
+{% if proxy_network is defined %}
+networks:
+  {{ proxy_network }}:
+    external: true
+{% endif %}
