@@ -702,6 +702,7 @@ smtpd_milters = inet:127.0.0.1:11332
 non_smtpd_milters = inet:127.0.0.1:11332
 milter_protocol = 6
 milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}
+smtpd_helo_required = yes
 disable_vrfy_command = yes
 
 # RedHat security guide recommended settings
@@ -716,3 +717,21 @@ smtp_tls_mandatory_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 smtp_tls_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 smtp_tls_security_level = may
 smtp_tls_loglevel = 1
+
+smtpd_recipient_restrictions =
+  reject_invalid_hostname,
+  reject_non_fqdn_hostname,
+  reject_non_fqdn_sender,
+  reject_non_fqdn_recipient,
+  reject_unknown_sender_domain,
+  reject_unknown_recipient_domain,
+  permit_mynetworks,
+  reject_unauth_destination,
+  reject_rbl_client cbl.abuseat.org,
+  reject_rbl_client sbl.spamhaus.org,
+  reject_rbl_client pbl.spamhaus.org
+  permit
+
+smtpd_data_restrictions =
+  reject_unauth_pipelining,
+  permit
