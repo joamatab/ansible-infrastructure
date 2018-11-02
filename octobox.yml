@@ -1,0 +1,11 @@
+---
+- hosts: octobox
+  roles:
+    - sys-upgrade
+    - docker
+    - docker-compose
+    - traefik
+    - octobox
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

@@ -1,0 +1,57 @@
+version: '2'
+services:
+  database:
+    image: postgres:9.6
+    mem_limit: 256mb
+    memswap_limit: 512mb
+    read_only: true
+    tmpfs:
+      - /run/postgresql:size=512K
+      - /tmp:size=128K
+    environment:
+      - POSTGRES_PASSWORD={{ octobox_database_password }}
+    volumes:
+      - {{ octobox_database_location }}:/var/lib/postgresql/data
+    networks:
+      backend:
+  redis:
+    image: redis:3.2-alpine
+    mem_limit: 256mb
+    memswap_limit: 512mb
+    networks:
+      backend:
+  app:
+    image: octoboxio/octobox:latest
+    mem_limit: 512mb
+    memswap_limit: 1024mb
+    environment:
+      - RAILS_ENV=production
+      - GITHUB_CLIENT_ID={{ octobox_github_id }}
+      - GITHUB_CLIENT_SECRET={{ octobox_github_secret }}
+      - OCTOBOX_DATABASE_NAME=postgres
+      - OCTOBOX_DATABASE_USERNAME=postgres
+      - OCTOBOX_DATABASE_PASSWORD={{ octobox_database_password }}
+      - OCTOBOX_DATABASE_HOST=database
+      - REDIS_URL=redis
+    labels:
+      - "traefik.frontend.rule=Host:{{ octobox_domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+{% if proxy_network is defined %}
+      - "traefik.docker.network={{ proxy_network }}"
+{% endif %}
+
+    networks:
+      backend:
+{% if proxy_network is defined %}
+      {{ proxy_network }}:
+{% endif %}
+
+
+networks:
+  backend:
+{% if proxy_network is defined %}
+  {{ proxy_network }}:
+    external: true
+{% endif %}
