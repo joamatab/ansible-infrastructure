@@ -18,7 +18,7 @@ services:
 
   sogo:
     image: quay.io/sheogorath/sogo:3.2
-    mem_limit: 256mb
+    mem_limit: 512mb
     memswap_limit: 512mb
     volumes:
       - './sogo/sogo.conf:/etc/sogo/sogo.conf'
