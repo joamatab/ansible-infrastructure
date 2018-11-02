@@ -6,3 +6,6 @@
     - docker-compose
     - traefik
     - awx
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

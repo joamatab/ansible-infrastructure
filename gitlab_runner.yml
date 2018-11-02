@@ -5,3 +5,6 @@
     - docker
     - docker-compose
     - gitlab-runner
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

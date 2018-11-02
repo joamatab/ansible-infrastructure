@@ -6,3 +6,5 @@
     - docker-compose
     - traefik
     - static_websites
+  environment:
+    PYTHONPATH: /opt/docker-compose

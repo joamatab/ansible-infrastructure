@@ -8,3 +8,6 @@
     - acme_dumper
     - traefik
     - mailserver
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

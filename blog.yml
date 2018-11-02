@@ -6,3 +6,6 @@
     - docker-compose
     - traefik
     - ghost
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

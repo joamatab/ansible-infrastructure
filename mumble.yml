@@ -6,3 +6,6 @@
     - docker-compose
     - traefik
     - mumble
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

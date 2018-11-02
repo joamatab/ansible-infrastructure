@@ -6,3 +6,6 @@
     - docker-compose
     - traefik
     - hackmd
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

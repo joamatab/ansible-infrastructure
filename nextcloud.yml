@@ -6,3 +6,6 @@
     - docker-compose
     - traefik
     - nextcloud
+
+  environment:
+    PYTHONPATH: /opt/docker-compose
