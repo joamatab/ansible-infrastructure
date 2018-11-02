@@ -92,6 +92,7 @@ services:
       trap "break;exit" SIGHUP SIGINT SIGTERM
       while /bin/true; do
         /usr/local/bin/php /var/www/html/cron.php
+        /usr/local/bin/php /var/www/nextcloud/occ preview:pre-generate
         sleep 900
       done
       EOF'
