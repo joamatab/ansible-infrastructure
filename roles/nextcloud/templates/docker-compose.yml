@@ -47,7 +47,7 @@ services:
 {% if nextcloud_collabora_domain != "office.example.com" %}
   collabora:
     image: collabora/code:{{ nextcloud_collabora_image_version }}
-    mem_limit: 256mb
+    mem_limit: 512mb
     memswap_limit: 512mb
     security_opt:
       - no-new-privileges
