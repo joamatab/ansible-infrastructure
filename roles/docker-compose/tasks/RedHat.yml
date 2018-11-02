@@ -6,7 +6,7 @@
     state: latest
   with_items:
     - "docker-compose"
-    - "pip"
+    - "python-pip"
   become: true
 
 - name: Create directory
