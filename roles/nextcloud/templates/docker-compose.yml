@@ -49,8 +49,6 @@ services:
     image: collabora/code:{{ nextcloud_collabora_image_version }}
     mem_limit: 512mb
     memswap_limit: 512mb
-    security_opt:
-      - no-new-privileges
     environment:
       - "domain={{ nextcloud_domain }}"
     labels:
