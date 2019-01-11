@@ -21,7 +21,7 @@ services:
       {{ proxy_network }}:
 
     environment:
-{% for key, value in traefik_options.iteritems() %}
+{% for key, value in traefik_options.items() %}
       - "{{ key }}={{ value }}"
 {% endfor %}
 
