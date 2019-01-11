@@ -1,7 +1,7 @@
 {{ ansible_managed | comment }}
 version: '2'
 services:
-{% for key, value in static_websites.iteritems() %}
+{% for key, value in static_websites.items() %}
 
   {{ key }}:
     image: "{{ value.image }}"
