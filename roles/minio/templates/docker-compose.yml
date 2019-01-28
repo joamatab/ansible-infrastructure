@@ -1,7 +1,7 @@
 {{ ansible_managed | comment }}
 version: '2'
 services:
-{% for key, value in minio_users.iteritems() %}
+{% for key, value in minio_users.items() %}
 
   {{ key }}:
     image:  minio/minio:{{ minio_version }}
