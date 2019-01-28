@@ -31,7 +31,7 @@ services:
       - /hackmd/public/uploads:size=10M
     environment:
       - "HMD_DB_URL=postgres://hackmd:hackmdpass@database:5432/hackmd"
-{% for key, value in hackmd_options.iteritems() %}
+{% for key, value in hackmd_options.items() %}
       - "HMD_{{ key }}={{ value }}"
 {% endfor %}
 
