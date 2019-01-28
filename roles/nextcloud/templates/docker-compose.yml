@@ -68,6 +68,16 @@ services:
   {% endif %}
 {% endif %}
 
+  redis:
+    image: redis:{{ nextcloud_redis_image_version }}
+    mem_limit: 64mb
+    memswap_limit: 128mb
+    security_opt:
+      - no-new-privileges
+    networks:
+      nextcloud:
+    restart: always
+
   memcache:
     image: memcached:{{ nextcloud_memcache_image_version }}
     mem_limit: 64mb

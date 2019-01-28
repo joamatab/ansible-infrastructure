@@ -14,6 +14,7 @@ nextcloud_admin_password: "{{ lookup('passwordstore',  nextcloud_domain +  '/' +
 nextcloud_version: 15.0
 
 nextcloud_memcache_version: 1.5.1
+nextcloud_redis_version: 5.0.3
 
 #nextcloud_collabora_domain: office.example.com
 nextcloud_collabora_version: 4.0.0.2
@@ -33,5 +34,6 @@ nextcloud_db_password: "{{ lookup('passwordstore',  nextcloud_domain +  '/db cre
 
 nextcloud_image_version: "{{ nextcloud_version }}-apache"
 nextcloud_database_image_version: "{{ nextcloud_database_version }}"
+nextcloud_redis_image_version: "{{ nextcloud_redis_version }}-alpine"
 nextcloud_memcache_image_version: "{{ nextcloud_memcache_version }}-alpine"
 nextcloud_collabora_image_version: "{{ nextcloud_collabora_version }}"
