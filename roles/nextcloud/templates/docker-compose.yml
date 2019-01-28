@@ -4,7 +4,7 @@ services:
   database:
     image: "mariadb:{{ nextcloud_database_image_version }}"
     mem_limit: 512mb
-    memswap_limit: 1024mb
+    memswap_limit: 768mb
     security_opt:
       - no-new-privileges
     environment:
@@ -21,8 +21,8 @@ services:
 
   nextcloud:
     image: "nextcloud:{{ nextcloud_image_version }}"
-    mem_limit: 256mb
-    memswap_limit: 512mb
+    mem_limit: 1024mb
+    memswap_limit: 1280mb
     security_opt:
       - no-new-privileges
     volumes:
@@ -49,7 +49,7 @@ services:
   collabora:
     image: collabora/code:{{ nextcloud_collabora_image_version }}
     mem_limit: 512mb
-    memswap_limit: 512mb
+    memswap_limit: 768mb
     environment:
       - "domain={{ nextcloud_domain }}"
     labels:
