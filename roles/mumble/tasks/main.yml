@@ -27,6 +27,9 @@
   template:
     src: docker-compose.yml
     dest: "{{ mumble_install_location }}/docker-compose.yml"
+    mode: 0600
+    owner: 'root'
+    group: 'root'
   register: docker_compose_yml
   tags:
     - docker

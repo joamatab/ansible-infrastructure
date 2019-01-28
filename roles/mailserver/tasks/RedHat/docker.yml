@@ -49,6 +49,9 @@
   template:
     src: docker-compose.yml
     dest: "/var/srv/mailserver/docker-compose.yml"
+    mode: 0600
+    owner: 'root'
+    group: 'root'
   become: true
   tags:
     - docker
