@@ -1,0 +1,11 @@
+---
+- hosts: mastodon
+  roles:
+    - sys-upgrade
+    - docker
+    - docker-compose
+    - traefik
+    - mastodon
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

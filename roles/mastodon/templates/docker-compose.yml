@@ -1,0 +1,101 @@
+{{ ansible_managed | comment }}
+version: '2'
+services:
+  nginx:
+    image: quay.io/sheogorath/mastodon-nginx
+    mem_limit: 32mb
+    memswap_limit: 64mb
+    labels:
+      - "traefik.frontend.rule=Host:{{ mastodon_domain }};PathPrefix:/"
+      - "traefik.enable=true"
+{% if proxy_network is defined %}
+      - "traefik.docker.network={{ proxy_network }}"
+{% endif %}
+
+    networks:
+      frontend:
+{% if proxy_network is defined %}
+      {{ proxy_network }}:
+{% endif %}
+    volumes:
+      - {{ mastodon_public_location }}:/usr/share/nginx/html/
+    depends_on:
+      - web
+      - streaming
+    restart: always
+
+
+  db:
+    image: postgres:{{ mastodon_database_image_version }}
+    mem_limit: 512mb
+    memswap_limit: 768mb
+    networks:
+      backend:
+    volumes:
+      - {{ mastodon_database_location }}:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:{{ mastodon_redis_image_version }}
+    mem_limit: 512mb
+    memswap_limit: 768mb
+    networks:
+      backend:
+    volumes:
+      - {{ mastodon_redis_location }}:/data
+    restart: always
+
+  web:
+    image: tootsuite/mastodon:{{ mastodon_image_version }}
+    mem_limit: 1024mb
+    memswap_limit: 1280mb
+    env_file: env_config
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - {{ mastodon_public_location }}/system:/mastodon/public/system
+    networks:
+      frontend:
+      backend:
+    restart: always
+    command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000 -b '0.0.0.0'"
+
+  streaming:
+    image: tootsuite/mastodon:{{ mastodon_image_version }}
+    mem_limit: 1024mb
+    memswap_limit: 1280mb
+    env_file: env_config
+    networks:
+      frontend:
+      backend:
+    depends_on:
+      - db
+      - redis
+    restart: always
+    command: yarn start
+
+  sidekiq:
+    image: tootsuite/mastodon:{{ mastodon_image_version }}
+    mem_limit: 1024mb
+    memswap_limit: 1280mb
+    env_file: env_config
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - {{ mastodon_public_location }}/system:/mastodon/public/system
+    networks:
+      frontend:
+      backend:
+    restart: always
+    command: bundle exec sidekiq
+
+networks:
+  frontend:
+  backend:
+    internal: true
+{% if proxy_network is defined %}
+  {{ proxy_network }}:
+    external: true
+{% endif %}

@@ -1,0 +1,25 @@
+mastodon_install_location: /var/srv/mastodon
+
+mastodon_database_location: "{{ mastodon_install_location }}/postgres"
+mastodon_public_location: "{{ mastodon_install_location }}/public"
+mastodon_redis_location: "{{ mastodon_install_location }}/redis"
+
+mastodon_domain: mastodon.example.com
+mastodon_config:
+  local_domain: "{{ mastodon_domain }}"
+  secret_key_base: undef
+  otp_secret: undef
+  vapid_private_key: undef
+  vapid_public_key: undef
+  smtp_server: localhost
+  smtp_login: undef
+  smtp_password: undef
+  smtp_from_address: mastodon@example.com
+
+mastodon_version: 2.7.1
+mastodon_database_version: 9.6
+mastodon_redis_version: 4.0
+
+mastodon_image_version: "v{{ mastodon_version }}"
+mastodon_database_image_version: "{{ mastodon_database_version }}-alpine"
+mastodon_redis_image_version: "{{ mastodon_redis_version }}-alpine"

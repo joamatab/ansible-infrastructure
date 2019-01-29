@@ -1,0 +1,52 @@
+---
+# tasks file for mastodon
+
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "container_file_t"
+    state: present
+  with_items:
+    - "{{ mastodon_database_location }}"
+    - "{{ mastodon_public_location }}"
+    - "{{ mastodon_redis_location }}"
+  become: true
+
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ mastodon_install_location }}"
+    - "{{ mastodon_database_location }}"
+    - "{{ mastodon_public_location }}"
+    - "{{ mastodon_redis_location }}"
+  become: true
+
+
+- name: Deploy docker-compose.yml and config
+  template:
+    src: "{{ item }}"
+    dest: "{{ mastodon_install_location }}/{{ item }}"
+    mode: 0600
+    owner: 'root'
+    group: 'root'
+  tags:
+    - docker
+    - mastodon
+  with_items:
+    - "env_config"
+    - "docker-compose.yml"
+  become: true
+
+
+- name: Compose mastodon
+  docker_service:
+    state: present
+    project_src:  "{{ mastodon_install_location }}"
+    pull: yes
+  tags:
+    - docker
+    - mastodon
+  become: true

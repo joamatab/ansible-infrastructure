@@ -1,0 +1,63 @@
+# Service dependencies
+# You may set REDIS_URL instead for more advanced options
+# You may also set REDIS_NAMESPACE to share Redis between multiple Mastodon servers
+REDIS_HOST=redis
+REDIS_PORT=6379
+# You may set DATABASE_URL instead for more advanced options
+DB_HOST=db
+DB_USER=postgres
+DB_NAME=postgres
+DB_PASS=
+DB_PORT=5432
+
+# Federation
+# Note: Changing LOCAL_DOMAIN at a later time will cause unwanted side effects, including breaking all existing federation.
+# LOCAL_DOMAIN should *NOT* contain the protocol part of the domain e.g https://example.com.
+LOCAL_DOMAIN={{ mastodon_config.local_domain }}
+
+{% if mastodon_config.web_domain is defined %}
+# Use this only if you need to run mastodon on a different domain than the one used for federation.
+# You can read more about this option on https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Serving_a_different_domain.md
+# DO *NOT* USE THIS UNLESS YOU KNOW *EXACTLY* WHAT YOU ARE DOING.
+WEB_DOMAIN={{ mastodon_config.web_domain }}
+
+{% endif %}
+# Application secrets
+# Generate each with the `RAILS_ENV=production bundle exec rake secret` task (`docker-compose run --rm web rake secret` if you use docker compose)
+SECRET_KEY_BASE={{ mastodon_config.secret_key_base }}
+OTP_SECRET={{ mastodon_config.otp_secret }}
+
+
+
+# VAPID keys (used for push notifications
+# You can generate the keys using the following command (first is the private key, second is the public one)
+# You should only generate this once per instance. If you later decide to change it, all push subscription will
+# be invalidated, requiring the users to access the website again to resubscribe.
+#
+# Generate with `RAILS_ENV=production bundle exec rake mastodon:webpush:generate_vapid_key` task (`docker-compose run --rm web rake mastodon:webpush:generate_vapid_key` if you use docker compose)
+#
+# For more information visit https://rossta.net/blog/using-the-web-push-api-with-vapid.html
+VAPID_PRIVATE_KEY={{ mastodon_config.vapid_private_key }}
+VAPID_PUBLIC_KEY={{ mastodon_config.vapid_public_key }}
+
+# E-mail configuration
+# Note: Mailgun and SparkPost (https://sparkpo.st/smtp) each have good free tiers
+# If you want to use an SMTP server without authentication (e.g local Postfix relay)
+# then set SMTP_AUTH_METHOD and SMTP_OPENSSL_VERIFY_MODE to 'none' and
+# *comment* SMTP_LOGIN and SMTP_PASSWORD (leaving them blank is not enough).
+SMTP_SERVER={{ mastodon_config.smtp_server }}
+SMTP_PORT={{ mastodon_config.smtp_port | default(587) }}
+SMTP_LOGIN={{ mastodon_config.smtp_login }}
+SMTP_PASSWORD={{ mastodon_config.smtp_password }}
+SMTP_FROM_ADDRESS={{ mastodon_config.smtp_from_address }}
+SMTP_DELIVERY_METHOD=smtp
+SMTP_AUTH_METHOD=plain
+SMTP_ENABLE_STARTTLS_AUTO=true
+
+# Cluster number setting for streaming API server.
+# If you comment out following line, cluster number will be `numOfCpuCores - 1`.
+STREAMING_CLUSTER_NUM=1
+
+{% for key, value in mastodon_config_opt.items() %}
+{{ key | upper }}={{ value }}
+{% endfor %}
