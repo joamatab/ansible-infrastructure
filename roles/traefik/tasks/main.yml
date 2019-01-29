@@ -77,7 +77,7 @@
   when:
     - traefik_debug is defined and traefik_debug
 
-- name: Allow access to services
+- name: Deny access to services
   firewalld:
     port: "{{ item }}/tcp"
     state: disabled
