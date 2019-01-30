@@ -19,4 +19,5 @@
   pip:
     name: docker-compose
     extra_args: --target /opt/docker-compose
+  changed_when: False
   become: true
