@@ -6,10 +6,11 @@
     name: "{{ item }}"
     state: present
   become: true
-  with_items:
-    - dovecot
-    - dovecot-mysql
-    - dovecot-pigeonhole
+  vars:
+    packages:
+      - dovecot
+      - dovecot-mysql
+      - dovecot-pigeonhole
   tags:
     - dovecot
 

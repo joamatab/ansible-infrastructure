@@ -4,6 +4,7 @@
   dnf:
     name: "{{ item }}"
     state: latest
-  with_items:
-    - "docker-compose"
+  vars:
+    packages:
+      - "docker-compose"
   become: true

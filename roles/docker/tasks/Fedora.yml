@@ -2,10 +2,11 @@
 
 - name: Install docker dependencies
   dnf:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: latest
-  with_items:
-    - "docker"
+  vars:
+    packages:
+      - "docker"
   become: true
 
 - name: Set network configs for docker

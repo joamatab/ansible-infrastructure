@@ -4,9 +4,10 @@
   yum:
     name: "{{ item }}"
     state: latest
-  with_items:
-    - "docker-compose"
-    - "python-pip"
+  vars:
+    packages:
+      - "docker-compose"
+      - "python-pip"
   become: true
 
 - name: Create directory

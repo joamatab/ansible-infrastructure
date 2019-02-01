@@ -4,8 +4,9 @@
   yum:
     name: "{{ item }}"
     state: latest
-  with_items:
-    - "docker"
+  vars:
+    packages:
+      - "docker"
   become: true
 
 - name: Set network configs for docker
