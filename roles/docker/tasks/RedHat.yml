@@ -2,7 +2,7 @@
 
 - name: Install docker dependencies
   yum:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: latest
   vars:
     packages:

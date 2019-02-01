@@ -3,7 +3,7 @@
 
 - name: "Install dovecot packages"
   yum:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: present
   become: true
   vars:
