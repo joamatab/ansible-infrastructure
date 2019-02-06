@@ -17,3 +17,11 @@
     permanent: true
     immediate: true
   become: true
+
+- name: Disable SSH by firewall to let ratelimit kick in
+  firewalld:
+    service: "ssh"
+    state: disabled
+    permanent: true
+    immediate: true
+  become: true
