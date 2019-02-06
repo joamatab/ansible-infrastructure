@@ -9,6 +9,8 @@
   with_items:
     - "{{ ssh_authorized_keys }}"
   become: true
+  tags:
+    - ssh
 
 - name: Set ratelimit for SSH
   firewalld:
@@ -17,6 +19,9 @@
     permanent: true
     immediate: true
   become: true
+  tags:
+    - firewall
+    - ssh
 
 - name: Disable SSH by firewall to let ratelimit kick in
   firewalld:
@@ -25,3 +30,6 @@
     permanent: true
     immediate: true
   become: true
+  tags:
+    - firewall
+    - ssh

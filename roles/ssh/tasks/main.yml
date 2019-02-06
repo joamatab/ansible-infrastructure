@@ -7,3 +7,6 @@
     - "{{ ansible_os_family }}.yml"
   loop_control:
     loop_var: distro_file
+  tags:
+    - firewall
+    - ssh

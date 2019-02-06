@@ -9,3 +9,5 @@
   with_items:
     - "{{ ssh_authorized_keys }}"
   become: true
+  tags:
+    - ssh
