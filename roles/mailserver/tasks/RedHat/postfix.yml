@@ -56,3 +56,16 @@
   become: true
   tags:
     - postfix
+
+- name: Generate DH parameters
+  openssl_dhparam:
+    path: /etc/postfix/dh2048.pem
+    owner: root
+    group: root
+    seuser: system_u
+    setype: postfix_etc_t
+    size: 2048
+  notify: restart postfix
+  become: true
+  tags:
+    - postfix
