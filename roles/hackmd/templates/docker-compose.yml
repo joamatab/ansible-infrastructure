@@ -6,6 +6,10 @@ services:
     mem_limit: 256mb
     memswap_limit: 512mb
     read_only: true
+    {% if hackmd_postgres_selinux_level %}
+    security_opt:
+      - label=level:s0:{{ hackmd_postgres_selinux_level }}
+    {% endif %}
     tmpfs:
       - /run/postgresql:size=512K
       - /tmp:size=128K
@@ -25,6 +29,10 @@ services:
     mem_limit: 256mb
     memswap_limit: 512mb
     read_only: true
+    {% if hackmd_selinux_level %}
+    security_opt:
+      - label=level:s0:{{ hackmd_selinux_level }}
+    {% endif %}
     tmpfs:
       - /tmp:size=10M
       - /hackmd/tmp:size=1M

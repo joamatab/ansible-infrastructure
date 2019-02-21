@@ -18,3 +18,6 @@ hackmd_postgres_version: 9.6
 
 hackmd_image_version: "{{ hackmd_version }}"
 hackmd_postgres_image_version: "{{ hackmd_postgres_version }}-alpine"
+
+hackmd_selinux_level: None
+hackmd_postgres_selinux_level: None
