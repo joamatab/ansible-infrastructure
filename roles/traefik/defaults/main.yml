@@ -10,3 +10,5 @@ traefik_docker_bridge_name: docker-proxy
 
 traefik_dns_provider: cloudflare
 traefik_options: {}
+
+#traefik_selinux_level: None

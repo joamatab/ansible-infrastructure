@@ -5,6 +5,7 @@
   sefcontext:
     target: '{{ item }}(/.*)?'
     setype: "container_file_t"
+    selevel: "{{ traefik_selinux_level | default(omit) }}"
     state: present
   with_items:
     - "{{ traefik_acme_location }}"

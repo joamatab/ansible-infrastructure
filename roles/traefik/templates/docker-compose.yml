@@ -5,6 +5,11 @@ services:
     image: traefik:{{ traefik_version }}
     mem_limit: 256mb
     memswap_limit: 512mb
+{% if traefik_selinux_level is defined %}
+    security_opt:
+      - label=level:{{ traefik_selinux_level }}
+{% endif %}
+
     ports:
     - "80:80"
     - "443:443"
