@@ -17,7 +17,7 @@ services:
     restart: always
 
   sogo:
-    image: quay.io/sheogorath/sogo:3.2
+    image: quay.io/sheogorath/sogo:4.0
     mem_limit: 512mb
     memswap_limit: 512mb
     volumes:
