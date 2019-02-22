@@ -1,6 +1,21 @@
 {{ ansible_managed | comment }}
 version: '2'
 services:
+  dockersocket:
+    image: tecnativa/docker-socket-proxy
+    mem_limit: 16mb
+    memswap_limit: 32mb
+    read_only: true
+    tmpfs:
+      - /run/:size=32K
+    environment:
+      - "CONTAINERS=1"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      sock:
+    restart: always
+
   proxy:
     image: traefik:{{ traefik_version }}
     mem_limit: 256mb
@@ -18,12 +33,12 @@ services:
 {% endif %}
 
     volumes:
-    - "/var/run/docker.sock:/var/run/docker.sock"
     - "{{ traefik_acme_location }}:/etc/traefik/acme"
 
-    command: "-c /dev/null --docker --acme --acme.email={{ traefik_LE_email }} --acme.storage=/etc/traefik/acme/acme.json --acme.entryPoint=https --acme.onhostrule --acme.dnsprovider={{ traefik_dns_provider }} --acme.dnschallenge --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 Compress:true TLS' --defaultentrypoints=http,https --docker.exposedbydefault=false --insecureskipverify=true{% if traefik_debug is defined and traefik_debug %} --web --logLevel=DEBUG {% endif %}"
+    command: "-c /dev/null --docker --docker.endpoint=tcp://dockersocket:2375 --acme --acme.email={{ traefik_LE_email }} --acme.storage=/etc/traefik/acme/acme.json --acme.entryPoint=https --acme.onhostrule --acme.dnsprovider={{ traefik_dns_provider }} --acme.dnschallenge --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 Compress:true TLS' --defaultentrypoints=http,https --docker.exposedbydefault=false --insecureskipverify=true{% if traefik_debug is defined and traefik_debug %} --web --logLevel=DEBUG {% endif %}"
     networks:
       {{ proxy_network }}:
+      socket:
 
     environment:
 {% for key, value in traefik_options.items() %}
@@ -35,3 +50,5 @@ services:
 networks:
    {{ proxy_network }}:
      external: true
+   socket:
+     internal: true
