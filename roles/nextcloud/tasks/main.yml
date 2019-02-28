@@ -46,6 +46,7 @@
     state: present
     project_src:  "{{ nextcloud_install_location }}"
     pull: yes
+    remove_orphans: yes
   notify: Update htaccess
   register: compose_nextcloud
   become: true
