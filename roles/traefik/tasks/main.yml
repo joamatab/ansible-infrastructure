@@ -59,6 +59,13 @@
     remove_orphans: yes
   become: true
 
+- name: Read tor hostname
+  slurp:
+    src: "{{ traefik_tor_data_location }}/traefik/hostname"
+  register: proxy_hiddenservice
+  become: true
+  when: traefik_tor_enabled
+
 - name: Allow access to services
   firewalld:
     service: "{{ item }}"
