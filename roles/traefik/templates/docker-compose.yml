@@ -16,10 +16,37 @@ services:
       socket:
     restart: always
 
+{% if traefik_tor_enabled %}
+  tor:
+    image: quay.io/sheogorath/tor:{{ traefik_tor_version }}
+    mem_limit: 32mb
+    memswap_limit: 64mb
+    read_only: true
+    depends_on:
+      - proxy
+    security_opt:
+      - no-new-privileges
+{% if traefik_selinux_level is defined %}
+      - label=level:{{ traefik_tor_selinux_level }}
+{% endif %}
+
+    tmpfs:
+      - /var/lib/tor/.tor:size=10M,uid=994,gid=994,mode=1700
+    volumes:
+      - "{{ traefik_tor_data_location }}:/data"
+      - "{{ traefik_tor_config_location }}:/etc/torrc.d/:ro"
+    networks:
+      tor_internal:
+      tor_external:
+    restart: always
+{% endif %}
+
   proxy:
     image: traefik:{{ traefik_version }}
     mem_limit: 256mb
     memswap_limit: 512mb
+    depends_on:
+      - dockersocket
 {% if traefik_selinux_level is defined %}
     security_opt:
       - label=level:{{ traefik_selinux_level }}
@@ -39,6 +66,9 @@ services:
     networks:
       {{ proxy_network }}:
       socket:
+{% if traefik_tor_enabled %}
+      tor_internal:
+{% endif %}
 
     environment:
 {% for key, value in traefik_options.items() %}
@@ -52,3 +82,8 @@ networks:
      external: true
    socket:
      internal: true
+{% if traefik_tor_enabled %}
+   tor_internal:
+     internal: true
+   tor_external:
+{% endif %}

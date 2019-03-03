@@ -20,6 +20,9 @@
     - "{{ traefik_acme_location }}"
   become: true
 
+- name: Include configs for Tor
+  include_tasks: tor.yml
+  when: traefik_tor_enabled
 
 - name: Create proxy network
   docker_network:

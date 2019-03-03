@@ -1,0 +1,29 @@
+- name: Update default SELinux contexts tor
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "container_file_t"
+    selevel: "{{ traefik_tor_selinux_level | default(omit) }}"
+    state: present
+  with_items:
+    - "{{ traefik_tor_data_location }}"
+    - "{{ traefik_tor_config_location }}"
+  become: true
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ traefik_tor_location }}"
+    - "{{ traefik_tor_data_location }}"
+    - "{{ traefik_tor_config_location }}"
+  become: true
+
+- name: Setup tor config
+  copy:
+    src: traefik-tor.conf
+    dest: "{{ traefik_tor_config_location }}/traefik"
+    setype: "container_file_t"
+    selevel: "{{ traefik_tor_selinux_level | default(omit) }}"
+    mode: "0644"
+  become: true

@@ -11,4 +11,11 @@ traefik_docker_bridge_name: docker-proxy
 traefik_dns_provider: cloudflare
 traefik_options: {}
 
+traefik_tor_enabled: false
+traefik_tor_version: 0.3
+traefik_tor_location: "{{ traefik_install_location }}/tor"
+traefik_tor_data_location: "{{ traefik_tor_location }}/data"
+traefik_tor_config_location: "{{ traefik_tor_location }}/config"
+
 #traefik_selinux_level: None
+#traefik_tor_selinux_level: None
