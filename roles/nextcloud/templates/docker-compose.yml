@@ -58,10 +58,11 @@ services:
     image: collabora/code:{{ nextcloud_collabora_image_version }}
     mem_limit: 512mb
     memswap_limit: 768mb
-    {% if nextcloud_collabora_selinux_level is defined %}
+{% if nextcloud_collabora_selinux_level is defined %}
     security_opt:
       - label=level:{{ nextcloud_collabora_selinux_level }}
-    {% endif %}
+{% endif %}
+
     environment:
       - "domain={{ nextcloud_domain }}"
     labels:
