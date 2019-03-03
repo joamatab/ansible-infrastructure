@@ -56,6 +56,7 @@
     state: present
     project_src: "{{ traefik_install_location }}"
     pull: yes
+    remove_orphans: yes
   become: true
 
 - name: Allow access to services
