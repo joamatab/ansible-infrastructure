@@ -7,6 +7,10 @@ services:
     memswap_limit: 768mb
     security_opt:
       - no-new-privileges
+{% if nextcloud_database_selinux_level is defined %}
+      - label=level:{{ nextcloud_database_selinux_level }}
+{% endif %}
+
     environment:
       - "MYSQL_DATABASE=nextcloud"
       - "MYSQL_USER=nextcloud"
@@ -25,6 +29,10 @@ services:
     memswap_limit: 1280mb
     security_opt:
       - no-new-privileges
+{% if nextcloud_selinux_level is defined %}
+      - label=level:{{ nextcloud_selinux_level }}
+{% endif %}
+
     volumes:
       - "{{ nextcloud_apps_location }}:/var/www/html/apps"
       - "{{ nextcloud_data_location }}:/var/www/html/data"
@@ -50,6 +58,10 @@ services:
     image: collabora/code:{{ nextcloud_collabora_image_version }}
     mem_limit: 512mb
     memswap_limit: 768mb
+    {% if nextcloud_collabora_selinux_level is defined %}
+    security_opt:
+      - label=level:{{ nextcloud_collabora_selinux_level }}
+    {% endif %}
     environment:
       - "domain={{ nextcloud_domain }}"
     labels:
@@ -74,6 +86,9 @@ services:
     memswap_limit: 128mb
     security_opt:
       - no-new-privileges
+{% if nextcloud_redis_selinux_level is defined %}
+      - label=level:{{ nextcloud_redis_selinux_level }}
+{% endif %}
     networks:
       nextcloud_internal:
     restart: always
@@ -84,6 +99,9 @@ services:
     memswap_limit: 128mb
     security_opt:
       - no-new-privileges
+{% if nextcloud_memcache_selinux_level is defined %}
+      - label=level:{{ nextcloud_memcache_selinux_level }}
+{% endif %}
     networks:
       nextcloud_internal:
     restart: always
@@ -94,6 +112,9 @@ services:
     memswap_limit: 256mb
     security_opt:
       - no-new-privileges
+{% if nextcloud_selinux_level is defined %}
+      - label=level:{{ nextcloud_selinux_level }}
+{% endif %}
     volumes_from:
       - nextcloud
     user: www-data

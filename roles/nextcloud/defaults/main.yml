@@ -37,3 +37,9 @@ nextcloud_database_image_version: "{{ nextcloud_database_version }}"
 nextcloud_redis_image_version: "{{ nextcloud_redis_version }}-alpine"
 nextcloud_memcache_image_version: "{{ nextcloud_memcache_version }}-alpine"
 nextcloud_collabora_image_version: "{{ nextcloud_collabora_version }}"
+
+#nextcloud_selinux_level: s0:c100
+#nextcloud_database_selinux_level: s0:c101
+#nextcloud_redis_selinux_level: s0:c102
+#nextcloud_memcache_selinux_level: s0:c103
+#nextcloud_collabora_selinux_level: s0:c104

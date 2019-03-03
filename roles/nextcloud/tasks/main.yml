@@ -1,15 +1,25 @@
 ---
 # tasks file for nextcloud
 
-- name: Update default SELinux contexts
+- name: Update default SELinux contexts for data directories
   sefcontext:
     target: '{{ item }}(/.*)?'
     setype: "container_file_t"
+    selevel: "{{ nextcloud_selinux_level | default(omit) }}"
     state: present
   with_items:
     - "{{ nextcloud_apps_location }}"
     - "{{ nextcloud_config_location }}"
     - "{{ nextcloud_data_location }}"
+  become: true
+
+- name: Update default SELinux contexts for database directory
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "container_file_t"
+    selevel: "{{ nextcloud_database_selinux_level | default(omit) }}"
+    state: present
+  with_items:
     - "{{ nextcloud_database_location }}"
   become: true
 
