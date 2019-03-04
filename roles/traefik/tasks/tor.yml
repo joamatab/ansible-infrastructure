@@ -26,4 +26,5 @@
     setype: "container_file_t"
     selevel: "{{ traefik_tor_selinux_level | default(omit) }}"
     mode: "0644"
+  notify: Restart tor proxy
   become: true

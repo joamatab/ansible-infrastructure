@@ -1,0 +1,6 @@
+---
+- name: Restart tor proxy
+  command: "docker-compose restart tor"
+  args:
+    chdir: "{{ traefik_install_location }}"
+  become: true
