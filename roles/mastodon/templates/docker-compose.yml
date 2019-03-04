@@ -11,6 +11,9 @@ services:
 {% if proxy_network is defined %}
       - "traefik.docker.network={{ proxy_network }}"
 {% endif %}
+{% if proxy_hiddenservice is defined %}
+      - "traefik.frontend.headers.customResponseHeaders=alt-svc:h2={{ proxy_hiddenservice['content'] | b64decode | trim }}:443; ma=2592000"
+{% endif %}
 
     networks:
       frontend:
