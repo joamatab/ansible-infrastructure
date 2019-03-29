@@ -1,0 +1,32 @@
+---
+# tasks file for dns_over_https
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ doh_install_location }}"
+  become: true
+
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ doh_install_location }}/docker-compose.yml"
+    mode: 0600
+    owner: 'root'
+    group: 'root'
+  tags:
+    - docker
+    - nextcloud
+  become: true
+
+
+- name: Compose DNS over HTTPS
+  docker_service:
+    state: present
+    project_src:  "{{ doh_install_location }}"
+    pull: yes
+    remove_orphans: yes
+  become: true

@@ -1,0 +1,11 @@
+---
+- hosts: dns_over_https
+  roles:
+    - sys-upgrade
+    - docker
+    - docker-compose
+    - traefik
+    - dns_over_https
+
+  environment:
+    PYTHONPATH: /opt/docker-compose
