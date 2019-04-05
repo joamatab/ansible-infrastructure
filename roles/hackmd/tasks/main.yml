@@ -45,6 +45,7 @@
     state: present
     project_src:  "{{ hackmd_install_location }}"
     pull: yes
+    remove_orphans: yes
   register: compose_hackmd
   tags:
     - hackmd
