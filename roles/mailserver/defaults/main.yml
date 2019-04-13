@@ -4,7 +4,6 @@
 mailserver_host: example.com
 mailserver_db_host: "{{ mailserver_host }}"
 mailserver_db_password: "{{ lookup('passwordstore',  mailserver_db_host +  '/mailserver-db create=true') }}"
-mailserver_db_phpmyadmin: "admin.{{ mailserver_host }}"
 
 mailserver_domain: example.com
 mailserver_webmail_address: "mail.{{mailserver_domain}}"

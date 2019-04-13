@@ -68,28 +68,6 @@ services:
 
     restart: always
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:4.7
-    mem_limit: 64mb
-    memswap_limit: 128mb
-    networks:
-      database:
-{% if proxy_network is defined %}
-      {{ proxy_network }}:
-{% endif %}
-
-    labels:
-      - "traefik.frontend.rule=Host:{{ mailserver_db_phpmyadmin }};PathPrefix:/"
-      - "traefik.enable=true"
-{% if proxy_network is defined %}
-      - "traefik.docker.network={{ proxy_network }}"
-{% endif %}
-
-    environment:
-      - "PMA_HOST=database"
-
-    restart: always
-
 networks:
   database:
   memcache:
