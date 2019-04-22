@@ -1,0 +1,16 @@
+---
+
+matrix_install_location: /var/srv/matrix
+matrix_data_location: "{{ matrix_install_location}}/data"
+matrix_database_location: "{{ matrix_install_location}}/database"
+
+matrix_synapse_version: "0.99.3"
+matrix_synapse_servername: example.com
+matrix_synapse_domain: "{{ matrix_synapse_servername }}"
+matrix_synapse_options: []
+
+matrix_database_version: "11.2"
+matrix_database_password: "{{ lookup('passwordstore',  matrix_synapse_domain +  '/db create=true length=42') }}"
+
+matrix_synapse_image_version: "v{{ matrix_synapse_version }}-py3"
+matrix_database_image_version: "{{ matrix_database_version }}-alpine"

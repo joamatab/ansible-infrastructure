@@ -1,0 +1,11 @@
+---
+- hosts: matrix
+  roles:
+    - sys-upgrade
+    - docker
+    - docker-compose
+    - traefik
+    - matrix
+
+  environment:
+    PYTHONPATH: /opt/docker-compose
