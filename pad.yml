@@ -5,7 +5,7 @@
     - docker
     - docker-compose
     - traefik
-    - hackmd
+    - codimd
 
   environment:
     PYTHONPATH: /opt/docker-compose

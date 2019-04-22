@@ -5,10 +5,10 @@
   sefcontext:
     target: '{{ item }}(/.*)?'
     setype: "container_file_t"
-    selevel: "{{ hackmd_postgres_selinux_level | default(omit) }}"
+    selevel: "{{ codimd_postgres_selinux_level | default(omit) }}"
     state: present
   with_items:
-    - "{{ hackmd_database_location }}"
+    - "{{ codimd_database_location }}"
   tags:
     - hackmd
   become: true
@@ -19,8 +19,8 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ hackmd_install_location }}"
-    - "{{ hackmd_database_location }}"
+    - "{{ codimd_install_location }}"
+    - "{{ codimd_database_location }}"
   tags:
     - hackmd
   become: true
@@ -29,7 +29,7 @@
 - name: Deploy docker-compose.yml
   template:
     src: docker-compose.yml
-    dest: "{{ hackmd_install_location }}/docker-compose.yml"
+    dest: "{{ codimd_install_location }}/docker-compose.yml"
     mode: 0600
     owner: 'root'
     group: 'root'
@@ -43,7 +43,7 @@
 - name: Compose hackmd
   docker_service:
     state: present
-    project_src:  "{{ hackmd_install_location }}"
+    project_src:  "{{ codimd_install_location }}"
     pull: yes
     remove_orphans: yes
   register: compose_hackmd

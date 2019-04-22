@@ -2,51 +2,50 @@
 version: '2'
 services:
   database:
-    image: postgres:{{ hackmd_postgres_image_version }}
+    image: postgres:{{ codimd_postgres_image_version }}
     mem_limit: 256mb
     memswap_limit: 512mb
     read_only: true
-{% if hackmd_postgres_selinux_level is defined %}
+{% if codimd_postgres_selinux_level is defined %}
     security_opt:
-      - label=level:{{ hackmd_postgres_selinux_level }}
+      - label=level:{{ codimd_postgres_selinux_level }}
 {% endif %}
 
     tmpfs:
       - /run/postgresql:size=512K
       - /tmp:size=128K
     environment:
-      - POSTGRES_USER=hackmd
-      - POSTGRES_PASSWORD=hackmdpass
-      - POSTGRES_DB=hackmd
+      - POSTGRES_USER={{ codimd_database_user }}
+      - POSTGRES_PASSWORD={{ codimd_database_password }}
+      - POSTGRES_DB={{ codimd_database_name }}
     volumes:
-      - {{ hackmd_database_location }}:/var/lib/postgresql/data
+      - {{ codimd_database_location }}:/var/lib/postgresql/data
     networks:
       backend:
         aliases:
           - hackmdPostgres
     restart: always
   codimd:
-    image:  quay.io/codimd/server:{{ hackmd_image_version }}
+    image:  quay.io/codimd/server:{{ codimd_image_version }}
     mem_limit: 256mb
     memswap_limit: 512mb
     read_only: true
-{% if hackmd_selinux_level is defined %}
+{% if codimd_selinux_level is defined %}
     security_opt:
-      - label=level:{{ hackmd_selinux_level }}
+      - label=level:{{ codimd_selinux_level }}
 {% endif %}
 
     tmpfs:
       - /tmp:size=10M
-      - /hackmd/tmp:size=1M
-      - /hackmd/public/uploads:size=10M
+      - /codimd/public/uploads:size=10M
     environment:
-      - "HMD_DB_URL=postgres://hackmd:hackmdpass@database:5432/hackmd"
-{% for key, value in hackmd_options.items() %}
-      - "HMD_{{ key }}={{ value }}"
+      - "CMD_DB_URL=postgres://{{ codimd_database_user }}:{{ codimd_database_password }}@database:5432/{{ codimd_database_name }}"
+{% for key, value in codimd_options.items() %}
+      - "CMD_{{ key }}={{ value }}"
 {% endfor %}
 
     labels:
-      - "traefik.frontend.rule=Host:{{ hackmd_domain }};PathPrefix:/"
+      - "traefik.frontend.rule=Host:{{ codimd_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
       - "traefik.frontend.headers.browserXSSFilter=true"
       - "traefik.frontend.headers.contentTypeNosniff=true"
