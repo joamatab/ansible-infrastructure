@@ -14,7 +14,7 @@ hackmd_options:
   USECDN: true
 
 hackmd_version: 1.3.2
-hackmd_postgres_version: 9.6
+hackmd_postgres_version: 11.2
 
 hackmd_image_version: "{{ hackmd_version }}"
 hackmd_postgres_image_version: "{{ hackmd_postgres_version }}-alpine"
