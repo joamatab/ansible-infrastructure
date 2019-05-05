@@ -28,7 +28,7 @@
   command: "grep -q 'tootsuite/mastodon:{{ mastodon_image_version }}' '{{ mastodon_install_location }}/docker-compose.yml'"
   register: mastodon_version_fact
   ignore_errors: yes
-  changed_when: mastodon_version_fact.rc >= 0
+  changed_when: mastodon_version_fact.rc > 0
   failed_when: false
 
 - name: Pull an mastodon image
