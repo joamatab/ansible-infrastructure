@@ -17,7 +17,7 @@ nextcloud_memcache_version: 1.5.1
 nextcloud_redis_version: 5.0.3
 
 #nextcloud_collabora_domain: office.example.com
-nextcloud_collabora_version: 4.0.0.2
+nextcloud_collabora_version: 4.0.3.1
 
 nextcloud_config:
   system:
