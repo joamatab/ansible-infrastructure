@@ -1,6 +1,5 @@
 ---
 
-- import_playbook: blog.yml
 - import_playbook: doh.yml
 - import_playbook: gitlab.yml
 - import_playbook: mailserver.yml
