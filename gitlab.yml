@@ -1,0 +1,11 @@
+---
+- hosts: gitlab
+  roles:
+    - sys-upgrade
+    - docker
+    - docker-compose
+    - traefik
+    - gitlab
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

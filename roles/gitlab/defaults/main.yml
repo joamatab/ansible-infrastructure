@@ -1,0 +1,19 @@
+---
+
+gitlab_install_location: /var/srv/gitlab
+gitlab_data_location: "{{ gitlab_install_location }}/data"
+gitlab_config_location: "{{ gitlab_install_location }}/config"
+gitlab_log_location: "{{ gitlab_install_location }}/log"
+
+gitlab_domain: gitlab.example.com
+gitlab_version: 11.10.4-ce.0
+
+gitlab_ssh_port: 22
+
+gitlab_smtp_address: smtp.example.com
+gitlab_smtp_port: 465
+gitlab_smtp_user_name: 'gitlab@example.com'
+gitlab_smtp_password: "{{ lookup('passwordstore',  gitlab_domain + '/' + gitlab_smtp_user_name + ' create=true length=42') }}"
+gitlab_snmp_tls: 'true'
+gitlab_email_from: "{{ gitlab_smtp_user_name }}"
+gitlab_email_reply_to: "{{ gitlab_smtp_user_name }}"

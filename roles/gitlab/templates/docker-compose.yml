@@ -1,0 +1,64 @@
+version: '2'
+services:
+  web:
+    image: 'gitlab/gitlab-ce:{{ gitlab_version }}'
+    hostname: '{{ gitlab_domain }}'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://{{ gitlab_domain }}'
+        gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab_ssh_port }}
+        letsencrypt['enable'] = false
+        nginx['listen_https'] = false
+        nginx['listen_port'] = 80
+        nginx['real_ip_trusted_addresses'] = [ '172.16.0.0/12' ]
+        nginx['gzip_enabled'] = false
+
+        prometheus_monitoring['enable'] = false
+
+        #Mail settings
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "{{ gitlab_smtp_address }}"
+        gitlab_rails['smtp_port'] = {{ gitlab_smtp_port }}
+        gitlab_rails['smtp_user_name'] = "{{ gitlab_smtp_user_name }}"
+        gitlab_rails['smtp_password'] = "{{ gitlab_smtp_password }}"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['smtp_domain'] = "{{ gitlab_smtp_address }}"
+        gitlab_rails['smtp_tls'] = {{ gitlab_snmp_tls }}
+        gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+
+        gitlab_rails['gitlab_email_from'] = '{{ gitlab_email_from }}'
+        gitlab_rails['gitlab_email_reply_to'] = '{{ gitlab_email_reply_to }}'
+
+        # Use Libravatar
+        gitlab_rails['gravatar_enabled'] = true
+        gitlab_rails['gravatar_plain_url'] = "http://cdn.libravatar.org/avatar/%{hash}?s=%{size}&d=identicon"
+        gitlab_rails['gravatar_ssl_url'] = "https://seccdn.libravatar.org/avatar/%{hash}?s=%{size}&d=identicon"
+    labels:
+      - "traefik.frontend.rule=Host:{{ gitlab_domain }};PathPrefix:/"
+      - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.port=80"
+      - "traefik.enable=true"
+{% if proxy_network is defined %}
+      - "traefik.docker.network={{ proxy_network }}"
+{% endif %}
+{% if proxy_hiddenservice is defined %}
+      - "traefik.frontend.headers.customResponseHeaders=alt-svc:h2={{ proxy_hiddenservice['content'] | b64decode | trim }}:443; ma=2592000"
+{% endif %}
+    volumes:
+      - "{{ gitlab_data_location }}:/var/opt/gitlab"
+      - "{{ gitlab_config_location }}:/etc/gitlab"
+      - "{{ gitlab_log_location }}:/var/log/gitlab'"
+    restart: always
+    ports:
+      - "{{ gitlab_ssh_port }}:22"
+{% if proxy_network is defined %}
+    networks:
+      {{ proxy_network }}:
+{% endif %}
+
+
+{% if proxy_network is defined %}
+networks:
+  {{ proxy_network }}:
+    external: true
+{% endif %}

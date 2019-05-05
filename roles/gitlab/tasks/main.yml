@@ -1,0 +1,54 @@
+---
+# tasks file for GitLab
+
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "container_file_t"
+    state: present
+  with_items:
+    - "{{ gitlab_data_location }}"
+    - "{{ gitlab_config_location }}"
+    - "{{ gitlab_log_location }}"
+  tags:
+    - gitlab
+  become: true
+
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ gitlab_install_location }}"
+    - "{{ gitlab_data_location }}"
+    - "{{ gitlab_config_location }}"
+    - "{{ gitlab_log_location }}"
+  tags:
+    - gitlab
+  become: true
+
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ gitlab_install_location }}/docker-compose.yml"
+    mode: 0600
+    owner: 'root'
+    group: 'root'
+  register: docker_compose_yml
+  tags:
+    - docker
+    - gitlab
+  become: true
+
+
+- name: Compose GitLab
+  docker_service:
+    state: present
+    project_src:  "{{ gitlab_install_location }}"
+    pull: yes
+    remove_orphans: yes
+  tags:
+    - gitlab
+  become: true
