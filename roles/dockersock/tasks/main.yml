@@ -5,3 +5,11 @@
   include_tasks: enabled.yml
   when:
     - ansible_selinux.status == "enabled"
+    - dockersock_enabled
+
+- name: Remove dockersock module
+  command: semodule -r dockersock
+  become: true
+  when:
+    - ansible_selinux.status == "enabled"
+    - dockersock_enabled == false

@@ -1,0 +1,5 @@
+---
+
+# Defaults for dockersock
+
+dockersock_enabled: true
