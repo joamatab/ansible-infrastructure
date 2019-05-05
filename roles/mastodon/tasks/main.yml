@@ -24,6 +24,31 @@
     - "{{ mastodon_redis_location }}"
   become: true
 
+- name: Check if migration is needed
+  command: "grep -q 'tootsuite/mastodon:{{ mastodon_image_version }}' '{{ mastodon_install_location }}/docker-compose.yml'"
+  register: mastodon_version_fact
+  ignore_errors: yes
+  changed_when: mastodon_version_fact.rc >= 0
+  failed_when: false
+
+- name: Pull an mastodon image
+  docker_image:
+    name: "tootsuite/mastodon:{{ mastodon_image_version }}"
+  become: true
+  when:
+    - mastodon_version_fact is changed
+
+- name: Stop mastodon for upgrade
+  docker_service:
+    state: present
+    project_src:  "{{ mastodon_install_location }}"
+    stopped: yes
+  tags:
+    - docker
+    - mastodon
+  become: true
+  when:
+    - mastodon_version_fact is changed
 
 - name: Deploy docker-compose.yml and config
   template:
@@ -40,6 +65,25 @@
     - "docker-compose.yml"
   become: true
 
+- name: Migrate database
+  command: docker-compose run --rm web rails db:migrate
+  args:
+    chdir: "{{ mastodon_install_location }}"
+  when:
+    - mastodon_version_fact is changed
+  become: true
+  environment:
+    PYTHONPATH:
+
+- name: Clear cache
+  command: docker-compose run --rm web bin/tootctl cache clear
+  args:
+    chdir: "{{ mastodon_install_location }}"
+  when:
+    - mastodon_version_fact is changed
+  become: true
+  environment:
+    PYTHONPATH:
 
 - name: Compose mastodon
   docker_service:
