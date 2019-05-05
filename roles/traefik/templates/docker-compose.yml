@@ -5,6 +5,8 @@ services:
     image: tecnativa/docker-socket-proxy
     mem_limit: 16mb
     memswap_limit: 32mb
+    security_opt:
+      - "label:disable"
     read_only: true
     tmpfs:
       - /run/:size=32K

@@ -2,4 +2,4 @@
 
 # Defaults for dockersock
 
-dockersock_enabled: true
+dockersock_enabled: false
