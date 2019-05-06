@@ -30,6 +30,7 @@
   ignore_errors: yes
   changed_when: mastodon_version_fact.rc > 0
   failed_when: false
+  become: true
 
 - name: Pull an mastodon image
   docker_image:
