@@ -45,6 +45,7 @@ services:
 
   proxy:
     image: traefik:{{ traefik_version }}
+    cpu_shares: 3072
     mem_limit: 256mb
     memswap_limit: 512mb
     depends_on:
