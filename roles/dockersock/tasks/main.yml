@@ -11,7 +11,7 @@
   command: semodule -r dockersock
   become: true
   register: dockersock_rm_result
-  changed_when: "No such file' not in dockersock_rm_result.stderr"
+  changed_when: "'No such file' not in dockersock_rm_result.stderr"
   failed_when: "'No such file' not in dockersock_rm_result.stderr and dockersock_rm_result.rc > 0"
   when:
     - ansible_selinux.status == "enabled"
