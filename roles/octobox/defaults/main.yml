@@ -1,7 +1,0 @@
-octobox_install_location: "/var/srv/octobox"
-octobox_database_location: "{{ octobox_install_location }}/database"
-
-octobox_domain: octobox.example.com
-
-octobox_github_id: "{{ lookup('passwordstore',  octobox_domain +  '/github-id') }}"
-octobox_github_secret: "{{ lookup('passwordstore',  octobox_domain +  '/github-secret') }}"
