@@ -1,9 +1,7 @@
-[![Build Status](https://img.shields.io/badge/MadIRC-%23Admins-green.svg)](https://webclient.madirc.net/?join=%23Admins)
-
 # Infrastructure
 This playbook is used to install and maintain my private infrastructure setup.
 
-For the client setup checkout my [client repository](https://github.com/SISheogorath/ansible-client).
+For the client setup checkout my [client repository](https://git.shivering-isles.com/ansible-client/fedora).
 
 Usage
 ---
@@ -12,13 +10,13 @@ To run this playbook you have to do a few steps:
 
 ```console
 # Clone the repository
-git clone https://github.com/SISheogorath/infrastructure.git
+git clone https://git.shivering-isles.com/shivering-isles/infrastructure.git
 
 # Edit the inventory file
-$EDITOR inventory
+vi inventory
 
 # Edit the group_vars
-$EDITOR group_vars/*
+vi group_vars/*
 
 # Deploy
 ansible-playbook -i inventory site.yml
