@@ -36,6 +36,9 @@
   template:
     src: config.toml
     dest: "{{ gitlabrunner_config_location }}/config.toml"
+    mode: 0600
+    owner: 'root'
+    group: 'root'
   register: docker_compose_yml
   tags:
     - docker
