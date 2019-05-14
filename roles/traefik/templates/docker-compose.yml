@@ -48,6 +48,7 @@ services:
     cpu_shares: 3072
     mem_limit: 256mb
     memswap_limit: 512mb
+    read_only: true
     depends_on:
       - dockersocket
 {% if traefik_selinux_level is defined %}
