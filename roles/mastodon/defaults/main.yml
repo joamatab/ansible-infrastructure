@@ -16,7 +16,7 @@ mastodon_config:
   smtp_password: undef
   smtp_from_address: mastodon@example.com
 
-mastodon_version: 2.8.2
+mastodon_version: 2.8.3
 mastodon_database_version: 9.6
 mastodon_redis_version: 4.0
 
