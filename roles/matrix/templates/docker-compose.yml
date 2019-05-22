@@ -23,9 +23,11 @@ services:
     depends_on:
       - database
     labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:{{ matrix_synapse_domain }}
-      - traefik.port=8008
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:{{ matrix_synapse_domain }}"
+      - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.referrerPolicy=no-referrer"
+      - "traefik.port=8008"
 {% if proxy_network is defined %}
       - "traefik.docker.network={{ proxy_network }}"
 {% endif %}
