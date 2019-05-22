@@ -36,6 +36,7 @@ services:
     labels:
       - "traefik.frontend.rule=Host:{{ gitlab_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
+      - "traefik.frontend.headers.contentSecurityPolicy=object-src 'none'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src * data: blob:; frame-src 'self'; frame-ancestors 'self'; connect-src 'self'"
       - "traefik.port=80"
       - "traefik.enable=true"
 {% if proxy_network is defined %}
