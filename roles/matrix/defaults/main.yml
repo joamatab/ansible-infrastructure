@@ -4,7 +4,7 @@ matrix_install_location: /var/srv/matrix
 matrix_data_location: "{{ matrix_install_location}}/data"
 matrix_database_location: "{{ matrix_install_location}}/database"
 
-matrix_synapse_version: "0.99.5"
+matrix_synapse_version: "0.99.5.2"
 matrix_synapse_servername: example.com
 matrix_synapse_domain: "{{ matrix_synapse_servername }}"
 matrix_synapse_options: []
