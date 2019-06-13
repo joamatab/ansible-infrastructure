@@ -3,6 +3,6 @@
 minio_install_location: "/var/srv/minio"
 minio_data_location: "{{ minio_install_location }}/data"
 
-minio_version: latest
+minio_version: "RELEASE.2019-06-04T01-15-58Z"
 
 minio_domain: objects.example.com
