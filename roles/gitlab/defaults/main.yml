@@ -6,7 +6,7 @@ gitlab_config_location: "{{ gitlab_install_location }}/config"
 gitlab_log_location: "{{ gitlab_install_location }}/log"
 
 gitlab_domain: gitlab.example.com
-gitlab_version: 11.11.0-ce.0
+gitlab_version: 11.11.3-ce.0
 
 gitlab_ssh_port: 22
 
