@@ -29,7 +29,7 @@
 
 
 - name: Compose static websites
-  docker_service:
+  docker_compose:
     state: present
     project_src:  "{{ static_websites_install_location }}"
     pull: yes

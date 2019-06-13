@@ -41,7 +41,7 @@
 
 
 - name: Compose hackmd
-  docker_service:
+  docker_compose:
     state: present
     project_src:  "{{ codimd_install_location }}"
     pull: yes

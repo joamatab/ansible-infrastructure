@@ -45,7 +45,7 @@
   become: true
 
 - name: Compose gitlab-runner
-  docker_service:
+  docker_compose:
     state: present
     project_src:  "{{ gitlabrunner_config_location }}"
     pull: yes

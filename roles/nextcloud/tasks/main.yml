@@ -52,7 +52,7 @@
 
 
 - name: Compose nextcloud
-  docker_service:
+  docker_compose:
     state: present
     project_src:  "{{ nextcloud_install_location }}"
     pull: yes
