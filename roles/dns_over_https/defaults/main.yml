@@ -3,4 +3,4 @@
 
 doh_install_location: /var/srv/doh
 doh_domain: dns.example.com
-doh_version: 2.0.1
+doh_version: 2.1.1
