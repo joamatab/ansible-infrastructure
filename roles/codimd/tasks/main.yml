@@ -33,6 +33,7 @@
     mode: 0600
     owner: 'root'
     group: 'root'
+    validate: docker-compose -f %s config -q
   register: docker_compose_yml
   tags:
     - docker
