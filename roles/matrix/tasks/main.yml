@@ -30,7 +30,7 @@
     mode: 0600
     owner: 'root'
     group: 'root'
-    validate: docker-compose -f %s config -q
+    validate: python2 -m compose -f %s config -q
   tags:
     - docker
     - matrix
