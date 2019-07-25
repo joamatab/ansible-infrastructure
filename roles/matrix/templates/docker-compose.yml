@@ -10,7 +10,6 @@ services:
       - no-new-privileges
     tmpfs:
       - "/compiled:size=128K"
-    restart: always
     environment:
       - "SYNAPSE_SERVER_NAME={{ matrix_synapse_servername }}"
 {% for key, value in matrix_synapse_options.items() %}
@@ -41,6 +40,8 @@ services:
       {{ proxy_network }}:
 {% endif %}
 
+  restart: always
+
   database:
     image: docker.io/postgres:{{ matrix_database_image_version }}
     mem_limit: 512mb
@@ -58,6 +59,7 @@ services:
       - "{{ matrix_database_location }}:/var/lib/postgresql/data"
     networks:
       database:
+    restart: always
 networks:
   database:
     internal: true
