@@ -40,7 +40,7 @@ services:
       {{ proxy_network }}:
 {% endif %}
 
-  restart: always
+    restart: always
 
   database:
     image: docker.io/postgres:{{ matrix_database_image_version }}
