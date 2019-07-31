@@ -1,0 +1,11 @@
+---
+- hosts: keycloak
+  roles:
+    - sys-upgrade
+    - docker
+    - docker-compose
+    - traefik
+    - keycloak
+
+  environment:
+    PYTHONPATH: /opt/docker-compose

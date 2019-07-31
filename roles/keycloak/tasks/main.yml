@@ -1,0 +1,52 @@
+---
+# tasks file for Keycloak
+
+- name: Update default SELinux contexts
+  sefcontext:
+    target: '{{ item }}(/.*)?'
+    setype: "container_file_t"
+    selevel: "{{ keycloak_postgres_selinux_level | default(omit) }}"
+    state: present
+  with_items:
+    - "{{ keycloak_database_location }}"
+  tags:
+    - keycloak
+  become: true
+
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ keycloak_install_location }}"
+    - "{{ keycloak_database_location }}"
+  tags:
+    - keycloak
+  become: true
+
+
+- name: Deploy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ keycloak_install_location }}/docker-compose.yml"
+    mode: 0600
+    owner: 'root'
+    group: 'root'
+    validate: python2 -m compose -f %s config -q
+  register: docker_compose_yml
+  tags:
+    - docker
+    - keycloak
+  become: true
+
+
+- name: Compose keycloak
+  docker_compose:
+    state: present
+    project_src:  "{{ keycloak_install_location }}"
+    pull: yes
+    remove_orphans: yes
+  tags:
+    - keycloak
+  become: true

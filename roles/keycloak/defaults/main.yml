@@ -1,0 +1,18 @@
+---
+# defaults file for keycloak
+
+keycloak_domain: keycloak.example.com
+
+keycloak_database_user: keycloak
+keycloak_database_password: "{{ lookup('passwordstore',  keycloak_domain +  '/' + database + ' create=true') }}"
+
+keycloak_install_location: /var/srv/auth
+keycloak_database_location: "{{ keycloak_install_location }}/database"
+
+keycloak_version: 6.0.1
+keycloak_postgres_version: 11.4
+
+keycloak_image_version: "{{ keycloak_version }}"
+keycloak_postgres_image_version: "{{ keycloak_postgres_version }}-alpine"
+
+#keycloak_postgres_selinux_level: None

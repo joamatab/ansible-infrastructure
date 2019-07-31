@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Christoph Kern
+  description: Installs a keycloak container
+  issue_tracker_url: https://git.shivering-isles.com/shivering-isles/infrastructure
+  license: GPLv3
+  min_ansible_version: 2.4
+  platforms:
+    - name: CentOS
+      versions:
+        - 7
+
+  galaxy_tags: []
+
+dependencies:
+  - docker
+  - docker-compose
