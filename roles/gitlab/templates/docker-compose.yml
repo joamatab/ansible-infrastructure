@@ -33,6 +33,44 @@ services:
         gitlab_rails['gravatar_enabled'] = true
         gitlab_rails['gravatar_plain_url'] = "http://cdn.libravatar.org/avatar/%{hash}?s=%{size}&d=identicon"
         gitlab_rails['gravatar_ssl_url'] = "https://seccdn.libravatar.org/avatar/%{hash}?s=%{size}&d=identicon"
+
+{% if gitlab_saml is defined %}
+        # SAML settings
+        gitlab_rails['omniauth_enabled'] = true
+        gitlab_rails['omniauth_allow_single_sign_on'] = ['saml']
+        gitlab_rails['omniauth_block_auto_created_users'] = true
+        gitlab_rails['omniauth_auto_link_ldap_user'] = false
+        gitlab_rails['omniauth_auto_link_saml_user'] = true
+        gitlab_rails['omniauth_external_providers'] = []
+        gitlab_rails['omniauth_providers'] = [
+          {
+            name: 'saml',
+            label: '{{ gitlab_saml.label }}',
+            groups_attribute: '{{ gitlab_saml.groups_attribute }}',
+            external_groups: ['{{ gitlab_saml.external_groups }}'],
+            args: {
+                     assertion_consumer_service_url: 'https://{{ gitlab_domain }}/users/auth/saml/callback',
+                     idp_cert_fingerprint: '{{ gitlab_saml.idp_cert_fingerprint }}',
+                     idp_sso_target_url: '{{ gitlab_saml.idp_sso_target_url }}',
+                     issuer: '{{ gitlab_saml.issuer }}',
+                     attribute_statements: {
+                       first_name: ['{{ gitlab_saml.attribute_statements.first_name }}'],
+                       last_name: ['{{ gitlab_saml.attribute_statements.last_name }}'],
+                       name: ['{{ gitlab_saml.attribute_statements.name }}'],
+                       username: ['{{ gitlab_saml.attribute_statements.username }}'],
+                       email: ['{{ gitlab_saml.attribute_statements.email }}'] },
+                     name_identifier_format: '{{ gitlab_saml.name_identifier_format }}',
+                     upstream_two_factor_authn_contexts:
+                       %w(
+                         urn:oasis:names:tc:SAML:2.0:ac:classes:CertificateProtectedTransport
+                         urn:oasis:names:tc:SAML:2.0:ac:classes:SecondFactorOTPSMS
+                         urn:oasis:names:tc:SAML:2.0:ac:classes:SecondFactorIGTOKEN
+                       )
+                   }
+          }
+        ]
+{% endif %}
+
     labels:
       - "traefik.frontend.rule=Host:{{ gitlab_domain }};PathPrefix:/"
       - "traefik.frontend.headers.STSSeconds=63072000"
