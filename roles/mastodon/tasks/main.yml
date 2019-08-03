@@ -51,10 +51,22 @@
   when:
     - mastodon_version_fact is changed
 
-- name: Deploy docker-compose.yml and config
+- name: Deploy config
   template:
-    src: "{{ item }}"
-    dest: "{{ mastodon_install_location }}/{{ item }}"
+    src: "env_config"
+    dest: "{{ mastodon_install_location }}/env_config"
+    mode: 0600
+    owner: 'root'
+    group: 'root'
+  tags:
+    - docker
+    - mastodon
+  become: true
+
+- name: Deploy docker-compose.yml
+  template:
+    src: "docker-compose.yml"
+    dest: "{{ mastodon_install_location }}/docker-compose.yml"
     mode: 0600
     owner: 'root'
     group: 'root'
@@ -62,10 +74,9 @@
   tags:
     - docker
     - mastodon
-  with_items:
-    - "env_config"
-    - "docker-compose.yml"
   become: true
+
+
 
 - name: Migrate database
   command: docker-compose run --rm web rails db:migrate
