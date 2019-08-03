@@ -36,6 +36,25 @@
     - matrix
   become: true
 
+- name: Check if homeserver.yaml (config) exists
+  stat: path="{{ matrix_data_location }}/homeserver.yaml"
+  register: matrix_synapse_homeserver_yaml
+  tags:
+    - docker
+    - matrix
+  become: true
+
+- name: Generate synapse config
+  command: 'python2 -m compose run -e "SYNAPSE_SERVER_NAME={{ matrix_synapse_servername }}" synapse generate'
+  args:
+    chdir: "{{ matrix_install_location }}"
+    creates: "{{ matrix_data_location }}/homeserver.yaml"
+  tags:
+    - docker
+    - matrix
+  become: true
+  when:
+    - matrix_synapse_homeserver_yaml.stat.exists == False
 
 - name: Compose synapse
   docker_compose:

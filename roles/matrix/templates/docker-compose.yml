@@ -9,9 +9,9 @@ services:
     security_opt:
       - no-new-privileges
     tmpfs:
+      - "/tmp:size=128K"
       - "/compiled:size=128K"
     environment:
-      - "SYNAPSE_SERVER_NAME={{ matrix_synapse_servername }}"
 {% for key, value in matrix_synapse_options.items() %}
       - "SYNAPSE_{{ key }}={{ value }}"
 {% endfor %}
