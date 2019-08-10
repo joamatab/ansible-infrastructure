@@ -52,7 +52,7 @@ services:
     image: tootsuite/mastodon:{{ mastodon_image_version }}
     mem_limit: 1024mb
     memswap_limit: 1280mb
-    env_file: env_config
+    env_file: {{ mastodon_install_location }}/env_config
     depends_on:
       - db
       - redis
@@ -68,7 +68,7 @@ services:
     image: tootsuite/mastodon:{{ mastodon_image_version }}
     mem_limit: 1024mb
     memswap_limit: 1280mb
-    env_file: env_config
+    env_file: {{ mastodon_install_location }}/env_config
     networks:
       frontend:
       backend:
@@ -82,7 +82,7 @@ services:
     image: tootsuite/mastodon:{{ mastodon_image_version }}
     mem_limit: 1024mb
     memswap_limit: 1280mb
-    env_file: env_config
+    env_file: {{ mastodon_install_location }}/env_config
     depends_on:
       - db
       - redis
