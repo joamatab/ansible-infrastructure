@@ -5,6 +5,8 @@ services:
     image: mariadb
     mem_limit: 256mb
     memswap_limit: 512mb
+    security_opt:
+      - no-new-privileges
     environment:
       - "MYSQL_ROOT_PASSWORD={{ mailserver_db_password }}"
     volumes:
@@ -20,6 +22,8 @@ services:
     image: quay.io/sheogorath/sogo:4.0
     mem_limit: 512mb
     memswap_limit: 512mb
+    security_opt:
+      - no-new-privileges
     volumes:
       - './sogo/sogo.conf:/etc/sogo/sogo.conf'
     environment:
@@ -41,6 +45,8 @@ services:
     image: memcached:1.4-alpine
     mem_limit: 64mb
     memswap_limit: 128mb
+    security_opt:
+      - no-new-privileges
     networks:
       memcache:
     restart: always
@@ -49,6 +55,8 @@ services:
     image: nginx
     mem_limit: 16mb
     memswap_limit: 32mb
+    security_opt:
+      - no-new-privileges
     volumes_from:
       - "sogo:ro"
     volumes:
@@ -68,7 +76,7 @@ services:
 
     restart: always
 
- mta-sts-cache:
+  mta-sts-cache:
     image: "docker.io/yarmak/postfix-mta-sts-resolver:{{ mailserver_mtasts_version }}"
     mem_limit: 16mb
     memswap_limit: 32mb
