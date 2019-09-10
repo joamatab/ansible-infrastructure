@@ -9,6 +9,6 @@ mailserver_domain: example.com
 mailserver_webmail_address: "mail.{{mailserver_domain}}"
 mailserver_imap_address: imap.{{ mailserver_domain }}
 
-mailserver_mtasts_version: 0.6.0
+mailserver_mtasts_version: 0.6.1
 
 mailserver_timezone: "Europe/Berlin"
