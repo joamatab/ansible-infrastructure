@@ -12,6 +12,7 @@
     - "/var/srv/mailserver/db.conf.d"
     - "/var/srv/mailserver/sogo"
     - "/var/srv/mailserver/nginx"
+    - "/var/srv/mailserver/mta-sts-cache"
   become: true
   tags:
     - selinux

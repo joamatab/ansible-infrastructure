@@ -68,6 +68,18 @@ services:
 
     restart: always
 
+ mta-sts-cache:
+    image: "docker.io/yarmak/postfix-mta-sts-resolver:{{ mailserver_mtasts_version }}"
+    mem_limit: 16mb
+    memswap_limit: 32mb
+    security_opt:
+      - no-new-privileges
+    volumes:
+      - "./mta-sts-cache:/var/lib/mta-sts"
+    ports:
+      - "127.0.0.1:8461:8461"
+    restart: always
+
 networks:
   database:
   memcache:
