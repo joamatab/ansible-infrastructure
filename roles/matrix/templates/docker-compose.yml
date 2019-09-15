@@ -9,7 +9,7 @@ services:
     security_opt:
       - no-new-privileges
     tmpfs:
-      - "/tmp:size=128K"
+      - "/tmp:size=64M"
       - "/compiled:size=128K"
     environment:
 {% for key, value in matrix_synapse_options.items() %}
