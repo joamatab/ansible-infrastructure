@@ -6,7 +6,10 @@ matrix:
 	ansible-playbook -i hosts.ini matrix.yml
 
 mastodon:
-	ansible-playbook mastodon.yml
+	ansible-playbook -i hosts.ini mastodon.yml
+
+mastodon2:
+	ansible-playbook --connection=local --inventory 127.0.0.1, mastodon.yml
 
 minio:
 	ansible-playbook -i hosts.ini minio.yml

@@ -1,5 +1,5 @@
 ---
-- hosts: mastodon
+- hosts: all
   roles:
     - sys-upgrade
     - docker
