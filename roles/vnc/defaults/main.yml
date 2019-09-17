@@ -1,0 +1,9 @@
+---
+ubuntu_vnc_packages:
+  - gnome-core
+  - vnc4server
+default_passwd: awsgui
+vnc_client_res: "1024x600"
+vnc_users:
+  - name: 'j'
+    vnc_num: 1
